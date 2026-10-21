@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { UsersService } from './users_service';
 import { Users } from './users_entity';
 import { bcryptCompare, encryptString, SERVER_CONST } from '../../utils/common';
-import { hasPermission } from '../../utils/auth_util';
+import { hasPermission, AuthenticatedRequest } from '../../utils/auth_util';
 import { CacheUtil } from '../../utils/cache_util';
 import { UsersUtil } from '../../utils/users_util';
 import { sendMail } from '../../utils/email_util';
@@ -81,7 +81,7 @@ export class UsersController {
   /**
    * Listar usuarios con validación de permisos y sanitización de contraseñas
    */
-  public getAllHandler = async (req: Request, res: Response): Promise<void> => {
+  public getAllHandler = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     if (!hasPermission(req.user?.rights, 'get_all_users')) {
       res.status(403).json({ statusCode: 403, status: 'error', message: 'No tiene permisos para consultar usuarios' });
       return;
@@ -100,7 +100,7 @@ export class UsersController {
   /**
    * Consulta de usuario por ID con lectura previa de caché (Cache-Aside)
    */
-  public getOneHandler = async (req: Request, res: Response): Promise<void> => {
+  public getOneHandler = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     if (!hasPermission(req.user?.rights, 'get_details_user')) {
       res.status(403).json({ statusCode: 403, status: 'error', message: 'No autorizado' });
       return;
@@ -127,14 +127,14 @@ export class UsersController {
     res.status(result.statusCode).json(result);
   };
 
-  public getDetailsHandler = async (req: Request, res: Response): Promise<void> => {
+  public getDetailsHandler = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     return this.getOneHandler(req, res);
   };
 
   /**
    * Actualización de usuario
    */
-  public updateHandler = async (req: Request, res: Response): Promise<void> => {
+  public updateHandler = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     if (!hasPermission(req.user?.rights, 'edit_user')) {
       res.status(403).json({ statusCode: 403, status: 'error', message: 'No tiene permisos para actualizar usuarios' });
       return;
@@ -158,7 +158,7 @@ export class UsersController {
   /**
    * Eliminación de usuario con invalidación automática de caché
    */
-  public deleteHandler = async (req: Request, res: Response): Promise<void> => {
+  public deleteHandler = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     if (!hasPermission(req.user?.rights, 'delete_user')) {
       res.status(403).json({ statusCode: 403, status: 'error', message: 'No autorizado' });
       return;
