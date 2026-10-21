@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\Usuario General\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none"
+  },
+  "pyright.analysis.reportMissingImports": "none"
+}

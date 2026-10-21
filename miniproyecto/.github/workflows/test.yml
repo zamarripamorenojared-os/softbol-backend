@@ -1,0 +1,45 @@
+name: Flujo de integración continua - Pruebas automatizadas
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: pms_user
+          POSTGRES_PASSWORD: pms_password
+          POSTGRES_DB: pms_db_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas y verificar cobertura
+        run: npm run test:coverage
+        env:
+          NODE_ENV: test
+          DB_PORT: 5432
+          JWT_SECRET: super_secret_test_key

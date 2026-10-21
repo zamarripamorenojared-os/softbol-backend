@@ -1,0 +1,139 @@
+{
+  "info": {
+    "_postman_id": "b3e94a82-1234-4567-89ab-cdef01234567",
+    "name": "PMS_Colección_Capitulo6",
+    "description": "Pruebas de integración para APIs RESTful de PMS: Usuarios, Roles, Proyectos y Tareas con transacciones ACID",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /api/users/login (Obtener JWT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"superadmin@pms.com\",\n  \"password\": \"Admin@123\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/api/users/login",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "3000",
+          "path": ["api", "users", "login"]
+        }
+      }
+    },
+    {
+      "name": "POST /api/projects (Crear Proyecto Válido)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sistema PMS Core\",\n  \"description\": \"Desarrollo del backend central del PMS\",\n  \"startDate\": \"2026-10-20T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/api/projects",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "3000",
+          "path": ["api", "projects"]
+        }
+      }
+    },
+    {
+      "name": "POST /api/projects (Probar Duplicado)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sistema PMS Core\",\n  \"description\": \"Intento duplicado de registro\",\n  \"startDate\": \"2026-10-20T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/api/projects",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "3000",
+          "path": ["api", "projects"]
+        }
+      }
+    },
+    {
+      "name": "GET /api/projects?status=active",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:3000/api/projects?status=active",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "3000",
+          "path": ["api", "projects"],
+          "query": [
+            {
+              "key": "status",
+              "value": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /api/projects/transaccion-atomica",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Proyecto Transaccional\",\n  \"description\": \"Creación atómica con tarea por defecto inicial\",\n  \"startDate\": \"2026-11-01T00:00:00.000Z\",\n  \"endDate\": \"2026-12-01T00:00:00.000Z\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:3000/api/projects/transaccion-atomica",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "3000",
+          "path": ["api", "projects", "transaccion-atomica"]
+        }
+      }
+    }
+  ]
+}
