@@ -42,8 +42,7 @@ if (process.argv.includes('--init')) {
   // Demostración de Event Loop y microtareas (Capítulo 18)
   runEventLoopDemo();
 } else {
-  const isSingle = process.env.SINGLE_INSTANCE === 'true' || process.argv.includes('--single');
-  if (!isSingle && cluster.isPrimary) {
+  if (cluster.isPrimary) {
     const numCPUs = os.cpus().length;
     console.log(`Master process ${process.pid} is running. Forking for ${numCPUs} CPUs...`);
 

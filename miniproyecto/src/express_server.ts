@@ -4,6 +4,8 @@ import { IServerConfig } from './utils/config';
 import config from '../server_config.json';
 import { Routes } from './routes';
 import { DatabaseUtil } from './utils/db';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger.config';
 
 export class ExpressServer {
   public static server: any = null;
@@ -15,6 +17,13 @@ export class ExpressServer {
 
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+
+    // Montaje del Endpoint Interactivo Swagger UI y especificación OpenAPI JSON
+    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.get('/api/docs.json', (req: Request, res: Response) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(swaggerSpec);
+    });
 
     app.get('/ping', (req: Request, res: Response) => {
       res.send('pong');

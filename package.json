@@ -27,6 +27,8 @@
     "pg": "^8.11.5",
     "redis": "^4.6.13",
     "reflect-metadata": "^0.2.2",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20",
     "uuid": "^9.0.1"
   },
@@ -44,6 +46,8 @@
     "@types/redis": "^4.0.11",
     "@types/sinon": "^17.0.2",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "@types/uuid": "^9.0.8",
     "chai": "^4.3.10",
     "javascript-obfuscator": "^4.1.0",

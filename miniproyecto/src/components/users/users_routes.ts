@@ -21,8 +21,38 @@ export class UserRoutes {
   constructor(app: Express) {
     const controller = new UsersController();
 
-    // Endpoints públicos
+    /**
+     * @openapi
+     * /api/v1/auth/login:
+     *   post:
+     *     summary: Inicio de sesión de usuario y obtención de token JWT
+     *     description: Autentica las credenciales del usuario y genera un token JWT Bearer necesario para operar los endpoints protegidos.
+     *     tags:
+     *       - Autenticación
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/LoginInput'
+     *     responses:
+     *       200:
+     *         description: Autenticación exitosa. Retorna el token JWT.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/LoginResponse'
+     *       401:
+     *         description: Credenciales incorrectas o usuario no encontrado.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/ErrorRFC7807'
+     */
+    // Endpoints públicos de login
     app.post(`${this.baseEndPoint}/login`, controller.login);
+    app.post('/api/v1/auth/login', controller.login);
+    app.post('/auth/login', controller.login);
     app.post(`${this.baseEndPoint}/forgot-password`, controller.forgotPassword);
     app.post(this.baseEndPoint, validate(validUserInput), controller.addHandler);
 
