@@ -30,7 +30,8 @@
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.5",
@@ -49,6 +50,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "@types/uuid": "^9.0.8",
+    "@types/yamljs": "^0.2.34",
     "chai": "^4.3.10",
     "javascript-obfuscator": "^4.1.0",
     "mocha": "^10.2.0",

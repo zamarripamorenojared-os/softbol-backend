@@ -7,6 +7,9 @@ import { DatabaseUtil } from './utils/db';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger.config';
 
+import path from 'path';
+import YAML from 'yamljs';
+
 export class ExpressServer {
   public static server: any = null;
   public server_config: IServerConfig = config;
@@ -18,11 +21,27 @@ export class ExpressServer {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
-    // Montaje del Endpoint Interactivo Swagger UI y especificación OpenAPI JSON
-    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    // Cargar especificación canónica OpenAPI YAML
+    let openapiDoc = swaggerSpec;
+    try {
+      const yamlPath = path.resolve(__dirname, '../../docs/openapi.yaml');
+      const loadedYaml = YAML.load(yamlPath);
+      if (loadedYaml) {
+        openapiDoc = loadedYaml;
+      }
+    } catch (e) {
+      // Fallback a swaggerSpec programático
+    }
+
+    // Montaje del Endpoint Interactivo Swagger UI y especificación OpenAPI
+    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
     app.get('/api/docs.json', (req: Request, res: Response) => {
       res.setHeader('Content-Type', 'application/json');
-      res.send(swaggerSpec);
+      res.send(openapiDoc);
+    });
+    app.get('/docs/openapi.yaml', (req: Request, res: Response) => {
+      const yamlFile = path.resolve(__dirname, '../../docs/openapi.yaml');
+      res.sendFile(yamlFile);
     });
 
     app.get('/ping', (req: Request, res: Response) => {
