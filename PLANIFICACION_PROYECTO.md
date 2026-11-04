@@ -1,172 +1,125 @@
-# especificación técnica y plan de entregas: softbolapp - sistema de gestión de ligas de softbol
+# especificación técnica y plan de entregas: SoftbolApp – Gestión de Ligas de Softbol
 
-este documento establece el plan de trabajo de 4 semanas, dividido en **2 entregables por semana (8 entregables en total)**, para el desarrollo e implementación del backend del proyecto **softbolapp - sistema de gestión de ligas de softbol**.
+**proyecto backend · evaluación bimodal institucional 2026-I**
+* **asignatura:** Desarrollo Backend de Aplicaciones
+* **profesor titular:** Dr. Herman Geovany Ayala Zúñiga
+* **institución:** Universidad Autónoma de Sinaloa · Facultad de Ingeniería Mochis
+* **repositorio:** `DesarrolloBackend-2026-402/23124369`
+* **proyecto del estudiante:** SoftbolApp – Gestión de Ligas de Softbol
 
-la evaluación de cada entrega se realiza de forma técnica y automatizada mediante pruebas de contrato sobre los endpoints, esquemas json, códigos de estado http y la publicación de **releases formales en github**.
+este documento establece la planeación técnica formal de 4 semanas, organizada en **2 entregables por semana (8 entregables totales)**.
 
-> **integración con moodle:** al crear cada tag y release en github, se ejecutan las validaciones correspondientes y la calificación se transmite directamente a la actividad asociada en el libro de calificaciones de moodle.
+cada estudiante debe integrar en su proyecto los conceptos y componentes de ingeniería backend desarrollados en los materiales del curso (capítulos 3 al 18), publicando las etiquetas de versión reglamentarias (tags de git) en github antes del cierre de cada hito.
 
----
-
-## 1. convención de releases en github
-
-cada estudiante debe publicar en la sección de releases de su repositorio el tag correspondiente a cada entrega antes de la fecha límite:
-
-| semana | entregable | tag obligatorio de github | hito del sistema |
-| :---: | :---: | :---: | :--- |
-| **semana 1** | e1.1 | `v0.1.0-e1.1` | arquitectura base, base de datos y autenticación |
-| **semana 1** | e1.2 | `v0.1.0-e1.2` | árbitros, anotadores oficiales, equipos y rosters de jugadores |
-| **semana 2** | e2.1 | `v0.2.0-e2.1` | configuración de ligas, roles de juego regulares y campos deportivos (fase 1) |
-| **semana 2** | e2.2 | `v0.2.0-e2.2` | configuración de ligas, roles de juego regulares y campos deportivos (fase 2 y contratos transaccionales) |
-| **semana 3** | e3.1 | `v0.3.0-e3.1` | captura del boxscore digital entrada por entrada (hits, carreras, ponches, errores) |
-| **semana 3** | e3.2 | `v0.3.0-e3.2` | captura del boxscore digital entrada por entrada (hits, carreras, ponches, errores) (reglas de validación y control de estados) |
-| **semana 4** | e4.1 | `v0.4.0-e4.1` | cálculo de estadísticas individuales (promedio de bateo, efectividad) y standing |
-| **semana 4** | e4.2 | `v1.0.0-final` | versión final: optimización, suite de pruebas y documentación openapi |
+> **integración con moodle:** al crear cada tag y release formal en github, el sistema de autograding ejecuta las pruebas de contrato sobre los endpoints y transmite la calificación automáticamente al libro de notas de moodle (curso id 730).
 
 ---
 
-## 2. desglose semanal y checklist técnico
+## 1. convención oficial de entregas y releases en github
 
-### semana 1: base arquitectónica, seguridad y entidades fundamentales
-
-#### entregable 1.1: infraestructura base y autenticación segura
-* **tag release:** `v0.1.0-e1.1`
-* **descripción del hito:** inicialización del servidor backend, configuración de entorno y sistema seguro de sesiones/tokens.
-* **checklist técnico:**
-  - [ ] estructura de carpetas modular (controladores, servicios, modelos, rutas, middlewares).
-  - [ ] archivo `.env.example` con variables requeridas (`PORT`, `DATABASE_URL`, `JWT_SECRET`, etc.).
-  - [ ] migraciones iniciales de base de datos para usuarios y roles.
-  - [ ] hashing seguro de contraseñas con bcrypt o argon2.
-  - [ ] middleware de autenticación jwt y validación de expiración de token.
-* **contratos de api a implementar:**
-  - `POST /api/v1/auth/login` -> `200 OK` o `201 Created` con token jwt o id de usuario.
-  - `POST /api/v1/teams` -> `200 OK` o `201 Created`.
-  - `GET /api/v1/teams` -> `200 OK` (requiere cabecera `Authorization: Bearer <token>`).
-* **criterios de evaluación y verificación técnica:**
-  * respuesta estricta con código `400 Bad Request` ante payload incompleto o formato de correo inválido.
-  * bloqueo de rutas protegidas con código `401 Unauthorized` ante ausencia de token o token manipulado.
-
-#### entregable 1.2: modelado y persistencia de catálogos base
-* **tag release:** `v0.1.0-e1.2`
-* **descripción del hito:** implementación de las entidades primarias: árbitros, anotadores oficiales, equipos y rosters de jugadores.
-* **checklist técnico:**
-  - [ ] creación de modelos y tablas relacionadas con claves foráneas e integridad referencial.
-  - [ ] endpoints crud para catálogos y perfiles iniciales del sistema.
-  - [ ] middleware para validación de permisos por rol de usuario.
-* **contratos de api a implementar:**
-  - `POST /api/v1/teams/:id/roster` -> `200 OK` o `201 Created`.
-  - `GET /api/v1/players` -> `200 OK`.
-  - `POST /api/v1/fields` -> `200 OK` o `204 No Content`.
-* **criterios de evaluación y verificación técnica:**
-  * verificación de códigos de estado correctos: `201 Created` en inserción y `404 Not Found` si el recurso no existe.
-  * protección contra inyecciones sql o no-sql utilizando parámetros tipados u orm/query builder.
+| semana | entregable | tag obligatorio | hito técnico a implementar | capítulos de referencia |
+| :---: | :---: | :---: | :--- | :--- |
+| semana 1 | e1.1 | `v0.1.0-e1.1` | Arquitectura limpia en TypeScript, entorno Docker, patrones creacionales y autenticación con JWT | Cap. 3, 4, 5, 10, 11, 13 |
+| semana 1 | e1.2 | `v0.1.0-e1.2` | Modelado de entidades de negocio, catálogos base, índices en base de datos y cadena de middlewares | Cap. 6, 12, 14 |
+| semana 2 | e2.1 | `v0.2.0-e2.1` | Búsqueda avanzada, paginación de resultados, optimización de consultas y caché con Redis | Cap. 6, 7, 14 |
+| semana 2 | e2.2 | `v0.2.0-e2.2` | Transacciones atómicas ACID, control de concurrencia y suite de pruebas automatizadas | Cap. 6, 9, 15 |
+| semana 3 | e3.1 | `v0.3.0-e3.1` | Máquina de estados de negocio, procesamiento asíncrono con colas y sistema de notificaciones | Cap. 8, 12, 16 |
+| semana 3 | e3.2 | `v0.3.0-e3.2` | Flujo de eventos, registro de auditoría inmutable y proyección analítica CQRS | Cap. 16, 17 |
+| semana 4 | e4.1 | `v0.4.0-e4.1` | Módulo de reportes analíticos, optimización del bucle de eventos y subprocesos Worker Threads | Cap. 18 |
+| semana 4 | e4.2 | `v1.0.0-final` | Versión final de producción 1.0.0, documentación OpenAPI/Swagger y suite completa de pruebas | Cap. 9, 10, 13 |
 
 ---
 
-### semana 2: lógica de negocio principal y transacciones
+## 2. desglose técnico de elementos obligatorios a integrar
 
-#### entregable 2.1: motor de operaciones y consultas
-* **tag release:** `v0.2.0-e2.1`
-* **descripción del hito:** desarrollo de la primera fase de: configuración de ligas, roles de juego regulares y campos deportivos.
-* **checklist técnico:**
-  - [ ] endpoints con filtros dinámicos y paginación estructurada (`page`, `limit`, `sortBy`).
-  - [ ] capa de servicio con validaciones de negocio antes de la persistencia.
-* **contratos de api a implementar:**
-  - `POST /api/v1/leagues` -> `200 OK` con arreglo de resultados.
-  - `POST /api/v1/leagues/:id/fixtures` -> `200 OK` o `201 Created`.
-  - `GET /api/v1/games/today` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * tiempos de respuesta menores a 2 segundos en consultas con filtros.
-  * validación de parámetros de consulta; tipos incompatibles deben retornar `422 Unprocessable Entity`.
+los siguientes componentes técnicos (desarrollados a lo largo de los capítulos 3 al 18) deben estar integrados de forma funcional en el backend del proyecto:
 
-#### entregable 2.2: procesamiento de transacciones y cálculo de reglas
-* **tag release:** `v0.2.0-e2.2`
-* **descripción del hito:** culminación de la lógica transaccional: configuración de ligas, roles de juego regulares y campos deportivos.
-* **checklist técnico:**
-  - [ ] manejo de transacciones atómicas (rollback automático en caso de fallo intermedio).
-  - [ ] generación de identificadores únicos legibles o folios consecutivos de control.
-* **contratos de api a implementar:**
-  - `GET /api/v1/games/:id` -> `201 Created` con payload del recurso creado.
-  - `PATCH /api/v1/games/:id/lineup` -> `200 OK`.
-  - `PATCH /api/v1/transactions/:id/validate` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * consistencia estricta en base de datos: ninguna operación fallida debe dejar registros huérfanos.
-  * códigos de respuesta conformes al estándar rest (`409 Conflict` ante duplicados o estados incompatibles).
+### semana 1: cimientos de arquitectura, persistencia y seguridad
+
+#### entregable 1.1 (`v0.1.0-e1.1`): arquitectura limpia, docker y autenticación jwt
+* **capítulos de referencia:** cap. 3 (express.js), cap. 4 (planeación de la aplicación), cap. 5 (módulo de usuarios y jwt), cap. 10 (docker compose), cap. 11 (patrones creacionales: singleton), cap. 13 (principios solid y arquitectura limpia).
+* **elementos obligatorios a integrar en el proyecto:**
+  - estructura modular en capas con typescript: separación estricta de controladores, servicios de aplicación, entidades de dominio y repositorios.
+  - contenedor de base de datos relacional (postgresql 16) y caché (redis 7) orquestados mediante `docker-compose.yml` con volúmenes persistentes y variables de entorno (`.env`).
+  - módulo de usuarios con hashing seguro de contraseñas (`bcrypt` factor >= 10), registro, inicio de sesión y emisión/verificación de tokens `jwt`.
+  - control de acceso basado en roles (`rbac`: administrador, operador/empleado, cliente/usuario general).
+
+#### entregable 1.2 (`v0.1.0-e1.2`): entidades de negocio, catálogos e índices b-tree
+* **capítulos de referencia:** cap. 6 (módulos de entidades y relaciones), cap. 12 (cadena de middlewares), cap. 14 (motores de almacenamiento e índices b-tree).
+* **elementos obligatorios a integrar en el proyecto:**
+  - modelado de entidades principales y catálogos base del negocio con typeorm o querybuilder.
+  - llaves foráneas explícitas, restricciones de unicidad e integridad referencial (evitar registros huérfanos).
+  - diseño y creación de índices b-tree en columnas de búsqueda y filtrado frecuente.
+  - cadena de middlewares: validación estricta de esquemas de entrada (con zod o joi), middleware de registro de peticiones (logger) y manejador centralizado de errores con códigos de estado http (200, 201, 400, 401, 403, 404, 422).
 
 ---
 
-### semana 3: integración avanzada, estados y comunicación
+### semana 2: optimización de consultas, transacciones y pruebas
 
-#### entregable 3.1: máquina de estados y ciclo de vida de operaciones
-* **tag release:** `v0.3.0-e3.1`
-* **descripción del hito:** implementación de: captura del boxscore digital entrada por entrada (hits, carreras, ponches, errores).
-* **checklist técnico:**
-  - [ ] transiciones de estado restringidas (máquina de estados finita).
-  - [ ] registro cronológico de cambios de estado y usuario autor.
-* **contratos de api a implementar:**
-  - `POST /api/v1/games/:id/boxscore/inning` -> `200 OK` o `201 Created`.
-  - `POST /api/v1/games/:id/events/at-bat` -> `200 OK`.
-  - `GET /api/v1/states/history` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * retorno de error `409 Conflict` o `400 Bad Request` ante transiciones de estado no permitidas.
-  * validación estricta de la identidad del usuario que realiza la acción (`403 Forbidden`).
+#### entregable 2.1 (`v0.2.0-e2.1`): búsqueda avanzada, paginación y caché con redis
+* **capítulos de referencia:** cap. 6 (consultas avanzadas), cap. 7 (almacenamiento en caché de apis con redis), cap. 14 (optimización de consultas).
+* **elementos obligatorios a integrar en el proyecto:**
+  - endpoints de búsqueda dinámica con filtros combinados y ordenamiento multicriterio.
+  - paginación estructurada de resultados (`page`, `limit`, `total`, `totalPages`).
+  - análisis de rendimiento de consultas sql mediante `explain analyze` para validar el uso correcto de índices.
+  - capa de almacenamiento en caché en memoria ram con redis para endpoints de lectura frecuente (catálogos, listas principales) con tiempo de vida (`ttl`) e invalidación automática ante modificaciones.
 
-#### entregable 3.2: servicios complementarios y políticas de privacidad
-* **tag release:** `v0.3.0-e3.2`
-* **descripción del hito:** módulos de control, balance y notificaciones asociados a: captura del boxscore digital entrada por entrada (hits, carreras, ponches, errores).
-* **checklist técnico:**
-  - [ ] endpoints para consulta de resúmenes, saldos o historiales vinculados.
-  - [ ] filtrado de información sensible según nivel de autorización.
-* **contratos de api a implementar:**
-  - `PATCH /api/v1/games/:id/finalize` -> `200 OK` o `201 Created`.
-  - `GET /api/v1/leagues/:id/standings` -> `200 OK`.
-  - `GET /api/v1/summary/status` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * verificación de políticas de acceso y confidencialidad de datos.
-  * sanitización de entradas para prevención de ataques xss o inyecciones de datos.
+#### entregable 2.2 (`v0.2.0-e2.2`): transacciones atómicas acid y pruebas automatizadas
+* **capítulos de referencia:** cap. 6 (transacciones acid), cap. 9 (pruebas automatizadas de apis), cap. 15 (transacciones avanzadas, aislamiento y concurrencia).
+* **elementos obligatorios a integrar en el proyecto:**
+  - operaciones transaccionales compuestas (ejemplo: venta con descuento de inventario, reserva con bloqueo de horario) ejecutadas bajo transacciones atómicas acid (`queryrunner` / transacciones de base de datos) con rollback automático ante fallos.
+  - control de concurrencia y prevención de anomalías mediante bloqueos adecuados (optimista o pesimista `select for update`).
+  - suite de pruebas automatizadas (pruebas unitarias y de integración) con jest/supertest o mocha validando contratos http, esquemas de respuesta y códigos de error.
 
 ---
 
-### semana 4: reportería, calidad, optimización y release final 1.0.0
+### semana 3: eventos de negocio, mensajería y auditoría inmutable
 
-#### entregable 4.1: analítica, reportes y módulo de administración
-* **tag release:** `v0.4.0-e4.1`
-* **descripción del hito:** cierre de funciones analíticas y administrativas: cálculo de estadísticas individuales (promedio de bateo, efectividad) y standing.
-* **checklist técnico:**
-  - [ ] endpoints con agregaciones y resúmenes estadísticos.
-  - [ ] panel o rutas exclusivas para el rol de administrador.
-  - [ ] exportación de datos en formato json estructurado o descargable.
-* **contratos de api a implementar:**
-  - `GET /api/v1/stats/batting-leaders` -> `200 OK`.
-  - `GET /api/v1/stats/pitching-leaders` -> `200 OK`.
-  - `GET /api/v1/admin/dashboard` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * verificación de índices de base de datos para que consultas analíticas complejas no bloqueen el servidor.
-  * denegación estricta a usuarios sin rol de administración (`403 Forbidden`).
+#### entregable 3.1 (`v0.3.0-e3.1`): máquina de estados y procesamiento asíncrono con colas
+* **capítulos de referencia:** cap. 8 (módulo de notificaciones y bullmq), cap. 12 (máquinas de estados y patrón observer), cap. 16 (patrones de mensajería asíncrona).
+* **elementos obligatorios a integrar en el proyecto:**
+  - máquina de estados finita para controlar el ciclo de vida de las operaciones clave (ej. pendiente -> en proceso -> completado / cancelado) impidiendo transiciones inválidas.
+  - desacoplamiento de tareas en segundo plano mediante colas de trabajo con redis y bullmq (o rabbitmq): envío de notificaciones, alertas de inventario o comprobantes por correo.
+  - confirmación manual de procesamiento (`ack` / `nack`) y políticas de reintento ante caídas temporales.
 
-#### entregable 4.2: suite de pruebas, documentación openapi y release final
-* **tag release:** `v1.0.0-final`
-* **descripción del hito:** consolidación final de la api, suite de pruebas automatizadas y documentación interactiva.
-* **checklist técnico:**
-  - [ ] documentación de la api completa mediante openapi / swagger disponible en `/api/docs`.
-  - [ ] endpoint de salud de la aplicación (`/api/v1/health`) con estado de conexión a base de datos.
-  - [ ] suite de pruebas automatizadas (tests de integración y unitarios) con cobertura mínima del 70%.
-  - [ ] publicación del release final `v1.0.0-final` con changelog detallado en github.
-* **contratos de api a implementar:**
-  - `GET /api/docs` -> `200 OK` (documentación o exportación).
-  - `GET /api/v1/health` -> `200 OK` con json `{ status: "ok", timestamp: "..." }`.
-  - `GET /api/v1/games/:id/export-boxscore` -> `200 OK`.
-* **criterios de evaluación y verificación técnica:**
-  * ejecución de la suite de pruebas sin fallos de aserción (`exit code 0`).
-  * concordancia total entre la documentación openapi y el comportamiento real de los endpoints.
+#### entregable 3.2 (`v0.3.0-e3.2`): flujo de eventos, registro de auditoría y cqrs
+* **capítulos de referencia:** cap. 16 (arquitecturas desacopladas por eventos), cap. 17 (procesamiento de flujos de eventos y captura de cambios cdc).
+* **elementos obligatorios a integrar en el proyecto:**
+  - registro inmutable de auditoría (audit log): almacenamiento de eventos de modificación con usuario responsable, marca de tiempo y estado previo/posterior.
+  - patrón básico de segregación de responsabilidades de consulta y comando (`cqrs`): separación de modelos optimizados para escritura y vistas precalculadas o consultas analíticas directas.
 
 ---
 
-## 3. tabla de criterios de evaluación automatizada
+### semana 4: módulo de reportes, cómputo paralelo y versión final 1.0.0
+
+#### entregable 4.1 (`v0.4.0-e4.1`): módulo de reportes analíticos y worker threads
+* **capítulos de referencia:** cap. 18 (optimización del event loop, worker threads y procesos hijo).
+* **elementos obligatorios a integrar en el proyecto:**
+  - **módulo de reportes analíticos:** generación de resúmenes estadísticos, totales agregados por periodo (diario, semanal, mensual), métricas clave de desempeño y estados consolidados del negocio.
+  - uso de subprocesos `worker_threads` (workerpool) para delegar cálculos numéricos intensivos, generación de reportes y agregaciones analíticas complejas sin bloquear el bucle de eventos principal (event loop) de express.
+  - endpoints protegidos para consulta y descarga de reportes ejecutivos.
+
+#### entregable 4.2 (`v1.0.0-final`): versión 1.0.0, openapi/swagger y entrega final
+* **capítulos de referencia:** cap. 9 (cobertura total de pruebas), cap. 10 (despliegue en producción), cap. 13 (verificación de arquitectura limpia).
+* **elementos obligatorios a integrar en el proyecto:**
+  - documentación interactiva y estandarizada de toda la api mediante openapi 3.0 / swagger ui (`/api/docs`).
+  - verificación completa de la suite de pruebas locales ejecutando `node scripts/smoke_test.js` y pruebas automatizadas con cobertura verificada.
+  - entorno de producción configurado: scripts de compilación (`npm run build`), variables de entorno listas y orquestación estable con docker compose.
+  - publicación formal del release `v1.0.0-final` en github con notas de versión completas (changelog).
+
+---
+
+## 3. criterios y ponderación de evaluación automatizada
 
 | rubro de evaluación | peso | mecanismo de verificación |
 | :--- | :---: | :--- |
-| **cumplimiento de contratos http y esquemas** | 35% | verificación de rutas, métodos, payloads y códigos de estado (200, 201, 400, 401, 403, 404, 422). |
-| **seguridad, autenticación y roles** | 25% | pruebas de bloqueo de rutas protegidas y control de acceso basado en roles. |
-| **persistencia, integridad y transacciones** | 20% | verificación de relaciones de base de datos, atomicidad y prevención de registros huérfanos. |
-| **releases de github y control de versiones** | 20% | existencia del tag exacto en github dentro de los plazos establecidos y notas de versión. |
+| **cumplimiento de contratos http y esquemas** | 35% | verificación de rutas, métodos, payloads json, validaciones y códigos de estado (200, 201, 400, 401, 403, 404, 409, 422). |
+| **seguridad, autenticación y roles** | 25% | protección de rutas, validación de tokens jwt y control de acceso basado en roles (rbac). |
+| **persistencia, integridad y transacciones** | 20% | relaciones foráneas, índices b-tree, atomicidad transaccional acid y prevención de inconsistencias. |
+| **releases de github y control de versiones** | 20% | existencia del tag reglamentario exacto y notas de versión (changelog) en los releases de github. |
+
+---
+
+## 4. política de segunda oportunidad (-rev)
+
+si la calificación obtenida en la revisión automatizada de un entregable es menor a **80 puntos**, el estudiante dispone de una ventana de **48 horas** para corregir las observaciones y publicar una etiqueta de revisión con el sufijo oficial (ejemplo: `v0.1.1-e1.1-rev`). el autograding recalculará la nota y actualizará la calificación en moodle.
