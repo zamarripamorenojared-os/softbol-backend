@@ -41,6 +41,8 @@ if (process.argv.includes('--init')) {
 } else if (process.argv.includes('--perf-demo')) {
   // Demostración de Event Loop y microtareas (Capítulo 18)
   runEventLoopDemo();
+} else if (process.argv.includes('--single')) {
+  new ExpressServer();
 } else {
   if (cluster.isPrimary) {
     const numCPUs = os.cpus().length;

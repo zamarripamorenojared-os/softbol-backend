@@ -39,9 +39,22 @@ export class ExpressServer {
       res.setHeader('Content-Type', 'application/json');
       res.send(openapiDoc);
     });
+    app.get('/api/docs-json', (req: Request, res: Response) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(openapiDoc);
+    });
     app.get('/docs/openapi.yaml', (req: Request, res: Response) => {
       const yamlFile = path.resolve(__dirname, '../../docs/openapi.yaml');
       res.sendFile(yamlFile);
+    });
+
+    app.get('/', (req: Request, res: Response) => {
+      res.status(200).json({
+        name: 'SoftbolApp API',
+        version: '0.1.0',
+        documentation: '/api/docs',
+        status: 'online'
+      });
     });
 
     app.get('/ping', (req: Request, res: Response) => {
