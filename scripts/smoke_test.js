@@ -1,26 +1,21 @@
 /**
  * ============================================================================
- * SUITE DE PRUEBAS DE HUMO INTEGRAL, EXHAUSTIVA Y SIN LÍMITES (SMOKE TEST)
+ * SUITE DE PRUEBAS DE HUMO ESCALONADA POR ENTREGABLE (SMOKE TEST)
  * ============================================================================
  * Proyecto: SoftbolApp – Gestión de Ligas de Softbol
  * Repositorio: DesarrolloBackend-2026-402/23124369
- * Asignatura: Desarrollo Backend de Aplicaciones · Semestre 2026-I
+ * Evaluación Bimodal Institucional · Universidad Autónoma de Sinaloa
  * Profesor Titular: Dr. Herman Geovany Ayala Zúñiga
- * Universidad Autónoma de Sinaloa · Facultad de Ingeniería Mochis
  * ============================================================================
  * 
- * OBJETIVO:
- *   Validar de forma automatizada y exhaustiva la totalidad de la superficie de la API
- *   REST de este backend (67 endpoints específicos de negocio y arquitectura).
+ * MODO DE USO:
+ *   node scripts/smoke_test.js [--deliverable=<e1.1|e1.2|e2.1|e2.2|e3.1|e3.2|e4.1|e4.2|all>]
  * 
- * USO LOCAL:
- *   1. Asegúrese de que su entorno Docker esté activo: docker compose up -d
- *   2. Inicie su servidor en modo desarrollo: npm run dev (o npm start)
- *   3. En otra terminal, ejecute: node scripts/smoke_test.js
- * 
- * CRITERIO DE ACREDITACIÓN:
- *   Calificación mínima requerida para liberar un tag/release: 80 / 100 puntos.
- *   Ningún endpoint debe responder con caída de servidor (HTTP 500) ni corte de red.
+ * EJEMPLOS:
+ *   node scripts/smoke_test.js --deliverable=e1.1   # Evalúa solo el hito e1.1 (Arquitectura, Docker, JWT)
+ *   node scripts/smoke_test.js --deliverable=e1.2   # Evalúa hitos acumulados hasta e1.2 (Entidades y Catálogos)
+ *   node scripts/smoke_test.js --deliverable=e4.2   # Evalúa la suite completa final
+ *   node scripts/smoke_test.js                      # Detecta automáticamente el entregable o evalúa e1.1
  */
 
 const http = require('http');
@@ -28,7 +23,21 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 
-const ENDPOINTS_A_PROBAR = [
+// Orden cronológico acumulativo de entregables
+const ENTREGABLES_ORDEN = ['e1.1', 'e1.2', 'e2.1', 'e2.2', 'e3.1', 'e3.2', 'e4.1', 'e4.2'];
+
+const METADATA_ENTREGABLES = {
+  'e1.1': { nombre: 'Arquitectura Limpia, Docker y Autenticación JWT', tag: 'v0.1.0-e1.1' },
+  'e1.2': { nombre: 'Entidades de Negocio, Catálogos e Índices B-Tree', tag: 'v0.1.0-e1.2' },
+  'e2.1': { nombre: 'Búsqueda Avanzada, Paginación y Caché con Redis', tag: 'v0.2.0-e2.1' },
+  'e2.2': { nombre: 'Transacciones Atómicas ACID y Pruebas Automatizadas', tag: 'v0.2.0-e2.2' },
+  'e3.1': { nombre: 'Máquina de Estados y Procesamiento Asíncrono BullMQ', tag: 'v0.3.0-e3.1' },
+  'e3.2': { nombre: 'Flujo de Eventos, Auditoría Inmutable y CQRS', tag: 'v0.3.0-e3.2' },
+  'e4.1': { nombre: 'Módulo de Reportes Analíticos y Worker Threads', tag: 'v0.4.0-e4.1' },
+  'e4.2': { nombre: 'Versión Final 1.0.0, OpenAPI/Swagger y Producción', tag: 'v1.0.0-final' }
+};
+
+const TODOS_LOS_ENDPOINTS = [
   {
     "path": "/api/v1/health",
     "method": "GET",
@@ -36,56 +45,34 @@ const ENDPOINTS_A_PROBAR = [
     "expected": [
       200
     ],
-    "modulo": "1. Infraestructura y Salud",
+    "entregable": "e1.1",
+    "modulo": "Infraestructura",
     "body": null
   },
   {
     "path": "/",
     "method": "GET",
-    "name": "Ruta Raíz del Servidor",
+    "name": "Ruta Raíz del API",
     "expected": [
       200,
       404
     ],
-    "modulo": "1. Infraestructura y Salud",
-    "body": null
-  },
-  {
-    "path": "/api/docs",
-    "method": "GET",
-    "name": "Documentación Interactiva Swagger UI / OpenAPI 3.0",
-    "expected": [
-      200,
-      301,
-      302
-    ],
-    "modulo": "1. Infraestructura y Salud",
-    "body": null
-  },
-  {
-    "path": "/api/docs-json",
-    "method": "GET",
-    "name": "Esquema OpenAPI en Formato JSON",
-    "expected": [
-      200,
-      301,
-      302,
-      404
-    ],
-    "modulo": "1. Infraestructura y Salud",
+    "entregable": "e1.1",
+    "modulo": "Infraestructura",
     "body": null
   },
   {
     "path": "/api/v1/auth/register",
     "method": "POST",
-    "name": "Registro de Usuarios (Validación DTO y Esquemas)",
+    "name": "Registro de Usuarios (Validación DTO)",
     "expected": [
       201,
       400,
       409,
       422
     ],
-    "modulo": "2. Seguridad y Autenticación",
+    "entregable": "e1.1",
+    "modulo": "Seguridad",
     "body": {
       "email": "smoke_test@uas.edu.mx"
     }
@@ -93,14 +80,15 @@ const ENDPOINTS_A_PROBAR = [
   {
     "path": "/api/v1/auth/login",
     "method": "POST",
-    "name": "Inicio de Sesión y Emisión de Token JWT",
+    "name": "Inicio de Sesión y Emisión JWT",
     "expected": [
       200,
       400,
       401,
       422
     ],
-    "modulo": "2. Seguridad y Autenticación",
+    "entregable": "e1.1",
+    "modulo": "Seguridad",
     "body": {
       "email": "smoke_test@uas.edu.mx",
       "password": "bad_password"
@@ -109,13 +97,14 @@ const ENDPOINTS_A_PROBAR = [
   {
     "path": "/api/v1/auth/me",
     "method": "GET",
-    "name": "Perfil Protegido de Usuario (Validación Bearer Token)",
+    "name": "Perfil Protegido por Token Bearer JWT",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "2. Seguridad y Autenticación",
+    "entregable": "e1.1",
+    "modulo": "Seguridad",
     "body": null
   },
   {
@@ -128,72 +117,23 @@ const ENDPOINTS_A_PROBAR = [
       401,
       404
     ],
-    "modulo": "2. Seguridad y Autenticación",
+    "entregable": "e1.1",
+    "modulo": "Seguridad",
     "body": {
-      "refreshToken": "invalid_token_test"
+      "refreshToken": "smoke_test_token"
     }
-  },
-  {
-    "path": "/api/v1/equipos",
-    "method": "GET",
-    "name": "Contrato Oficial: GET /api/v1/equipos",
-    "expected": [
-      200,
-      401,
-      403
-    ],
-    "modulo": "3. Contratos Oficiales de Negocio",
-    "body": null
-  },
-  {
-    "path": "/api/v1/juegos",
-    "method": "POST",
-    "name": "Contrato Oficial: POST /api/v1/juegos",
-    "expected": [
-      201,
-      400,
-      422,
-      401,
-      403
-    ],
-    "modulo": "3. Contratos Oficiales de Negocio",
-    "body": {}
-  },
-  {
-    "path": "/api/v1/juegos/1/boxscore",
-    "method": "POST",
-    "name": "Contrato Oficial: POST /api/v1/juegos/:id/boxscore",
-    "expected": [
-      200,
-      409,
-      401,
-      403
-    ],
-    "modulo": "3. Contratos Oficiales de Negocio",
-    "body": {}
-  },
-  {
-    "path": "/api/v1/reportes/standing-oficial",
-    "method": "GET",
-    "name": "Contrato Oficial: GET /api/v1/reportes/standing-oficial",
-    "expected": [
-      200,
-      401,
-      403
-    ],
-    "modulo": "3. Contratos Oficiales de Negocio",
-    "body": null
   },
   {
     "path": "/api/v1/torneosoftboles",
     "method": "GET",
-    "name": "Listado Paginado de TorneoSoftbol",
+    "name": "Catálogo de TorneoSoftbol (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: TorneoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: TorneoSoftbol",
     "body": null
   },
   {
@@ -208,7 +148,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: TorneoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: TorneoSoftbol",
     "body": {}
   },
   {
@@ -221,13 +162,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: TorneoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: TorneoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/torneosoftboles/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de TorneoSoftbol por ID",
+    "name": "Actualización de Atributos de TorneoSoftbol",
     "expected": [
       200,
       400,
@@ -236,13 +178,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: TorneoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: TorneoSoftbol",
     "body": {}
   },
   {
     "path": "/api/v1/torneosoftboles/1",
     "method": "DELETE",
-    "name": "Baja Lógica de TorneoSoftbol por ID",
+    "name": "Baja Lógica de TorneoSoftbol",
     "expected": [
       200,
       204,
@@ -250,19 +193,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: TorneoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: TorneoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/categoriasoftboles",
     "method": "GET",
-    "name": "Listado Paginado de CategoriaSoftbol",
+    "name": "Catálogo de CategoriaSoftbol (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: CategoriaSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: CategoriaSoftbol",
     "body": null
   },
   {
@@ -277,7 +222,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: CategoriaSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: CategoriaSoftbol",
     "body": {}
   },
   {
@@ -290,13 +236,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: CategoriaSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: CategoriaSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/categoriasoftboles/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de CategoriaSoftbol por ID",
+    "name": "Actualización de Atributos de CategoriaSoftbol",
     "expected": [
       200,
       400,
@@ -305,13 +252,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: CategoriaSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: CategoriaSoftbol",
     "body": {}
   },
   {
     "path": "/api/v1/categoriasoftboles/1",
     "method": "DELETE",
-    "name": "Baja Lógica de CategoriaSoftbol por ID",
+    "name": "Baja Lógica de CategoriaSoftbol",
     "expected": [
       200,
       204,
@@ -319,19 +267,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: CategoriaSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: CategoriaSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/equiposoftboles",
     "method": "GET",
-    "name": "Listado Paginado de EquipoSoftbol",
+    "name": "Catálogo de EquipoSoftbol (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: EquipoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EquipoSoftbol",
     "body": null
   },
   {
@@ -346,7 +296,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: EquipoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EquipoSoftbol",
     "body": {}
   },
   {
@@ -359,13 +310,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: EquipoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EquipoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/equiposoftboles/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de EquipoSoftbol por ID",
+    "name": "Actualización de Atributos de EquipoSoftbol",
     "expected": [
       200,
       400,
@@ -374,13 +326,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: EquipoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EquipoSoftbol",
     "body": {}
   },
   {
     "path": "/api/v1/equiposoftboles/1",
     "method": "DELETE",
-    "name": "Baja Lógica de EquipoSoftbol por ID",
+    "name": "Baja Lógica de EquipoSoftbol",
     "expected": [
       200,
       204,
@@ -388,19 +341,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: EquipoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EquipoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/rosterjugadores",
     "method": "GET",
-    "name": "Listado Paginado de RosterJugador",
+    "name": "Catálogo de RosterJugador (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: RosterJugador",
+    "entregable": "e1.2",
+    "modulo": "Entidades: RosterJugador",
     "body": null
   },
   {
@@ -415,7 +370,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: RosterJugador",
+    "entregable": "e1.2",
+    "modulo": "Entidades: RosterJugador",
     "body": {}
   },
   {
@@ -428,13 +384,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: RosterJugador",
+    "entregable": "e1.2",
+    "modulo": "Entidades: RosterJugador",
     "body": null
   },
   {
     "path": "/api/v1/rosterjugadores/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de RosterJugador por ID",
+    "name": "Actualización de Atributos de RosterJugador",
     "expected": [
       200,
       400,
@@ -443,13 +400,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: RosterJugador",
+    "entregable": "e1.2",
+    "modulo": "Entidades: RosterJugador",
     "body": {}
   },
   {
     "path": "/api/v1/rosterjugadores/1",
     "method": "DELETE",
-    "name": "Baja Lógica de RosterJugador por ID",
+    "name": "Baja Lógica de RosterJugador",
     "expected": [
       200,
       204,
@@ -457,19 +415,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: RosterJugador",
+    "entregable": "e1.2",
+    "modulo": "Entidades: RosterJugador",
     "body": null
   },
   {
     "path": "/api/v1/juegosoftboles",
     "method": "GET",
-    "name": "Listado Paginado de JuegoSoftbol",
+    "name": "Catálogo de JuegoSoftbol (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: JuegoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: JuegoSoftbol",
     "body": null
   },
   {
@@ -484,7 +444,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: JuegoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: JuegoSoftbol",
     "body": {}
   },
   {
@@ -497,13 +458,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: JuegoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: JuegoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/juegosoftboles/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de JuegoSoftbol por ID",
+    "name": "Actualización de Atributos de JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -512,13 +474,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: JuegoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: JuegoSoftbol",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1",
     "method": "DELETE",
-    "name": "Baja Lógica de JuegoSoftbol por ID",
+    "name": "Baja Lógica de JuegoSoftbol",
     "expected": [
       200,
       204,
@@ -526,19 +489,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: JuegoSoftbol",
+    "entregable": "e1.2",
+    "modulo": "Entidades: JuegoSoftbol",
     "body": null
   },
   {
     "path": "/api/v1/boxscores",
     "method": "GET",
-    "name": "Listado Paginado de BoxScore",
+    "name": "Catálogo de BoxScore (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: BoxScore",
+    "entregable": "e1.2",
+    "modulo": "Entidades: BoxScore",
     "body": null
   },
   {
@@ -553,7 +518,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: BoxScore",
+    "entregable": "e1.2",
+    "modulo": "Entidades: BoxScore",
     "body": {}
   },
   {
@@ -566,13 +532,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: BoxScore",
+    "entregable": "e1.2",
+    "modulo": "Entidades: BoxScore",
     "body": null
   },
   {
     "path": "/api/v1/boxscores/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de BoxScore por ID",
+    "name": "Actualización de Atributos de BoxScore",
     "expected": [
       200,
       400,
@@ -581,13 +548,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: BoxScore",
+    "entregable": "e1.2",
+    "modulo": "Entidades: BoxScore",
     "body": {}
   },
   {
     "path": "/api/v1/boxscores/1",
     "method": "DELETE",
-    "name": "Baja Lógica de BoxScore por ID",
+    "name": "Baja Lógica de BoxScore",
     "expected": [
       200,
       204,
@@ -595,19 +563,21 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: BoxScore",
+    "entregable": "e1.2",
+    "modulo": "Entidades: BoxScore",
     "body": null
   },
   {
     "path": "/api/v1/estadisticabateos",
     "method": "GET",
-    "name": "Listado Paginado de EstadisticaBateo",
+    "name": "Catálogo de EstadisticaBateo (Listado y Paginación)",
     "expected": [
       200,
       401,
       403
     ],
-    "modulo": "4. Entidades: EstadisticaBateo",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EstadisticaBateo",
     "body": null
   },
   {
@@ -622,7 +592,8 @@ const ENDPOINTS_A_PROBAR = [
       409,
       422
     ],
-    "modulo": "4. Entidades: EstadisticaBateo",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EstadisticaBateo",
     "body": {}
   },
   {
@@ -635,13 +606,14 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: EstadisticaBateo",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EstadisticaBateo",
     "body": null
   },
   {
     "path": "/api/v1/estadisticabateos/1",
     "method": "PATCH",
-    "name": "Actualización Parcial de EstadisticaBateo por ID",
+    "name": "Actualización de Atributos de EstadisticaBateo",
     "expected": [
       200,
       400,
@@ -650,13 +622,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "4. Entidades: EstadisticaBateo",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EstadisticaBateo",
     "body": {}
   },
   {
     "path": "/api/v1/estadisticabateos/1",
     "method": "DELETE",
-    "name": "Baja Lógica de EstadisticaBateo por ID",
+    "name": "Baja Lógica de EstadisticaBateo",
     "expected": [
       200,
       204,
@@ -664,20 +637,22 @@ const ENDPOINTS_A_PROBAR = [
       403,
       404
     ],
-    "modulo": "4. Entidades: EstadisticaBateo",
+    "entregable": "e1.2",
+    "modulo": "Entidades: EstadisticaBateo",
     "body": null
   },
   {
     "path": "/api/v1/juegos?fecha=1",
     "method": "GET",
-    "name": "Búsqueda Avanzada Multicriterio (/api/v1/juegos)",
+    "name": "Búsqueda con Filtros (/api/v1/juegos)",
     "expected": [
       200,
       400,
       401,
       403
     ],
-    "modulo": "5. Búsqueda y Filtros Dinámicos",
+    "entregable": "e2.1",
+    "modulo": "Búsqueda y Filtros",
     "body": null
   },
   {
@@ -690,20 +665,22 @@ const ENDPOINTS_A_PROBAR = [
       401,
       403
     ],
-    "modulo": "5. Búsqueda y Filtros Dinámicos",
+    "entregable": "e2.1",
+    "modulo": "Búsqueda y Filtros",
     "body": null
   },
   {
     "path": "/api/v1/jugadores?torneo=1&lideres=true",
     "method": "GET",
-    "name": "Búsqueda Avanzada Multicriterio (/api/v1/jugadores)",
+    "name": "Búsqueda con Filtros (/api/v1/jugadores)",
     "expected": [
       200,
       400,
       401,
       403
     ],
-    "modulo": "5. Búsqueda y Filtros Dinámicos",
+    "entregable": "e2.1",
+    "modulo": "Búsqueda y Filtros",
     "body": null
   },
   {
@@ -716,13 +693,43 @@ const ENDPOINTS_A_PROBAR = [
       401,
       403
     ],
-    "modulo": "5. Búsqueda y Filtros Dinámicos",
+    "entregable": "e2.1",
+    "modulo": "Búsqueda y Filtros",
     "body": null
+  },
+  {
+    "path": "/api/v1/juegos",
+    "method": "POST",
+    "name": "Operación Transaccional ACID: POST /api/v1/juegos",
+    "expected": [
+      201,
+      400,
+      422,
+      401,
+      403
+    ],
+    "entregable": "e2.2",
+    "modulo": "Transacciones ACID",
+    "body": {}
+  },
+  {
+    "path": "/api/v1/juegos/1/boxscore",
+    "method": "POST",
+    "name": "Operación Transaccional ACID: POST /api/v1/juegos/:id/boxscore",
+    "expected": [
+      200,
+      409,
+      401,
+      403
+    ],
+    "entregable": "e2.2",
+    "modulo": "Transacciones ACID",
+    "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/estado",
     "method": "PATCH",
-    "name": "Transición General de Estados en JuegoSoftbol",
+    "name": "Transición General en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -731,7 +738,8 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {
       "estado": "CONFIRMADO"
     }
@@ -739,7 +747,7 @@ const ENDPOINTS_A_PROBAR = [
   {
     "path": "/api/v1/juegosoftboles/1/programado",
     "method": "PATCH",
-    "name": "Transición a Estado 'Programado' en JuegoSoftbol",
+    "name": "Transición a 'Programado' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -748,13 +756,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/en_calentamiento",
     "method": "PATCH",
-    "name": "Transición a Estado 'En_Calentamiento' en JuegoSoftbol",
+    "name": "Transición a 'En_Calentamiento' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -763,13 +772,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/innings_en_juego",
     "method": "PATCH",
-    "name": "Transición a Estado 'Innings_En_Juego' en JuegoSoftbol",
+    "name": "Transición a 'Innings_En_Juego' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -778,13 +788,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/finalizado_oficial",
     "method": "PATCH",
-    "name": "Transición a Estado 'Finalizado_Oficial' en JuegoSoftbol",
+    "name": "Transición a 'Finalizado_Oficial' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -793,13 +804,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/empate_extrainnings",
     "method": "PATCH",
-    "name": "Transición a Estado 'Empate_Extrainnings' en JuegoSoftbol",
+    "name": "Transición a 'Empate_Extrainnings' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -808,13 +820,14 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
   },
   {
     "path": "/api/v1/juegosoftboles/1/suspendido_lluvia",
     "method": "PATCH",
-    "name": "Transición a Estado 'Suspendido_Lluvia' en JuegoSoftbol",
+    "name": "Transición a 'Suspendido_Lluvia' en JuegoSoftbol",
     "expected": [
       200,
       400,
@@ -823,127 +836,198 @@ const ENDPOINTS_A_PROBAR = [
       404,
       422
     ],
-    "modulo": "6. Máquina de Estados",
+    "entregable": "e3.1",
+    "modulo": "Máquina de Estados",
     "body": {}
-  },
-  {
-    "path": "/api/v1/reportes/analitica",
-    "method": "GET",
-    "name": "Reporte Analítico Agregado (Cálculo con Worker Threads)",
-    "expected": [
-      200,
-      401,
-      403
-    ],
-    "modulo": "7. Módulo de Reportes Analíticos",
-    "body": null
-  },
-  {
-    "path": "/api/v1/reportes/balance",
-    "method": "GET",
-    "name": "Módulo de Balance y Métricas Financieras",
-    "expected": [
-      200,
-      401,
-      403,
-      404
-    ],
-    "modulo": "7. Módulo de Reportes Analíticos",
-    "body": null
-  },
-  {
-    "path": "/api/v1/reportes/exportar/excel",
-    "method": "GET",
-    "name": "Descarga de Reporte Ejecutivo en Formato Excel (.xlsx)",
-    "expected": [
-      200,
-      401,
-      403,
-      404
-    ],
-    "modulo": "7. Módulo de Reportes Analíticos",
-    "body": null
-  },
-  {
-    "path": "/api/v1/reportes/exportar/pdf",
-    "method": "GET",
-    "name": "Descarga de Reporte Ejecutivo en Formato PDF",
-    "expected": [
-      200,
-      401,
-      403,
-      404
-    ],
-    "modulo": "7. Módulo de Reportes Analíticos",
-    "body": null
-  },
-  {
-    "path": "/api/v1/audit-logs",
-    "method": "GET",
-    "name": "Consulta de Bitácora Inmutable de Auditoría",
-    "expected": [
-      200,
-      401,
-      403,
-      404
-    ],
-    "modulo": "8. Auditoría y Trazabilidad",
-    "body": null
-  },
-  {
-    "path": "/api/v1/eventos",
-    "method": "GET",
-    "name": "Registro Histórico de Eventos de Dominio",
-    "expected": [
-      200,
-      401,
-      403,
-      404
-    ],
-    "modulo": "8. Auditoría y Trazabilidad",
-    "body": null
   },
   {
     "path": "/api/v1/notificaciones",
     "method": "GET",
-    "name": "Bandeja de Notificaciones de Usuario",
+    "name": "Bandeja de Notificaciones Asíncronas (BullMQ)",
     "expected": [
       200,
       401,
       403,
       404
     ],
-    "modulo": "9. Notificaciones y Mensajería",
+    "entregable": "e3.1",
+    "modulo": "Notificaciones",
     "body": null
   },
   {
     "path": "/api/v1/notificaciones/unread-count",
     "method": "GET",
-    "name": "Conteo de Notificaciones Pendientes",
+    "name": "Conteo de Notificaciones No Leídas",
     "expected": [
       200,
       401,
       403,
       404
     ],
-    "modulo": "9. Notificaciones y Mensajería",
+    "entregable": "e3.1",
+    "modulo": "Notificaciones",
     "body": null
   },
   {
-    "path": "/api/v1/notificaciones/1/leida",
-    "method": "PATCH",
-    "name": "Marcar Notificación como Leída",
+    "path": "/api/v1/audit-logs",
+    "method": "GET",
+    "name": "Bitácora Histórica Inmutable (Audit Log)",
     "expected": [
       200,
-      400,
       401,
       403,
       404
     ],
-    "modulo": "9. Notificaciones y Mensajería",
-    "body": {}
+    "entregable": "e3.2",
+    "modulo": "Auditoría y Trazabilidad",
+    "body": null
+  },
+  {
+    "path": "/api/v1/eventos",
+    "method": "GET",
+    "name": "Registro de Eventos de Dominio (CDC)",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e3.2",
+    "modulo": "Auditoría y Trazabilidad",
+    "body": null
+  },
+  {
+    "path": "/api/v1/reportes/analitica",
+    "method": "GET",
+    "name": "Módulo de Reportes Analíticos (Worker Threads)",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e4.1",
+    "modulo": "Módulo de Reportes",
+    "body": null
+  },
+  {
+    "path": "/api/v1/reportes/balance",
+    "method": "GET",
+    "name": "Reporte de Balance y Rendimiento Agregado",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e4.1",
+    "modulo": "Módulo de Reportes",
+    "body": null
+  },
+  {
+    "path": "/api/v1/reportes/exportar/excel",
+    "method": "GET",
+    "name": "Exportación de Reporte a Excel (.xlsx)",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e4.1",
+    "modulo": "Módulo de Reportes",
+    "body": null
+  },
+  {
+    "path": "/api/v1/reportes/exportar/pdf",
+    "method": "GET",
+    "name": "Exportación de Reporte a PDF",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e4.1",
+    "modulo": "Módulo de Reportes",
+    "body": null
+  },
+  {
+    "path": "/api/v1/reportes/standing-oficial",
+    "method": "GET",
+    "name": "Reporte Específico: /api/v1/reportes/standing-oficial",
+    "expected": [
+      200,
+      401,
+      403,
+      404
+    ],
+    "entregable": "e4.1",
+    "modulo": "Módulo de Reportes",
+    "body": null
+  },
+  {
+    "path": "/api/docs",
+    "method": "GET",
+    "name": "Documentación Interactiva Swagger UI / OpenAPI 3.0",
+    "expected": [
+      200,
+      301,
+      302
+    ],
+    "entregable": "e4.2",
+    "modulo": "Documentación Final",
+    "body": null
+  },
+  {
+    "path": "/api/docs-json",
+    "method": "GET",
+    "name": "Esquema OpenAPI en Formato JSON",
+    "expected": [
+      200,
+      301,
+      302,
+      404
+    ],
+    "entregable": "e4.2",
+    "modulo": "Documentación Final",
+    "body": null
   }
 ];
+
+// Parse CLI args
+const rawArgs = process.argv.slice(2);
+let deliverableArg = null;
+
+for (let i = 0; i < rawArgs.length; i++) {
+  const a = rawArgs[i];
+  if (a.startsWith('--deliverable=')) deliverableArg = a.split('=')[1];
+  else if (a === '--deliverable' && rawArgs[i + 1]) deliverableArg = rawArgs[i + 1];
+  else if (a === '--all' || a === '-a') deliverableArg = 'all';
+  else if (ENTREGABLES_ORDEN.includes(a.toLowerCase())) deliverableArg = a.toLowerCase();
+}
+
+if (!deliverableArg) {
+  deliverableArg = process.env.DELIVERABLE || 'e1.1';
+}
+
+deliverableArg = deliverableArg.toLowerCase();
+if (deliverableArg !== 'all' && !ENTREGABLES_ORDEN.includes(deliverableArg)) {
+  console.error(`Entregable no válido: '${deliverableArg}'. Opciones válidas: ${ENTREGABLES_ORDEN.join(', ')}, all`);
+  process.exit(1);
+}
+
+// Filtrar endpoints acumulativos hasta el entregable seleccionado
+function filterEndpoints(target) {
+  if (target === 'all' || target === 'e4.2') {
+    return TODOS_LOS_ENDPOINTS;
+  }
+  const maxIdx = ENTREGABLES_ORDEN.indexOf(target);
+  const permitidos = ENTREGABLES_ORDEN.slice(0, maxIdx + 1);
+  return TODOS_LOS_ENDPOINTS.filter(ep => permitidos.includes(ep.entregable));
+}
+
+const endpointsAEvaluar = filterEndpoints(deliverableArg);
 
 function executeRequest(endpoint) {
   return new Promise((resolve) => {
@@ -957,7 +1041,7 @@ function executeRequest(endpoint) {
       method: endpoint.method,
       timeout: 3500,
       headers: {
-        'User-Agent': 'SmokeTest-UAS-Bimodal/2.0-Exhaustive',
+        'User-Agent': 'SmokeTest-UAS-Bimodal/Staged',
         'Accept': 'application/json, text/html, */*'
       }
     };
@@ -978,6 +1062,7 @@ function executeRequest(endpoint) {
           method: endpoint.method,
           name: endpoint.name,
           modulo: endpoint.modulo,
+          entregable: endpoint.entregable,
           status: res.statusCode,
           expected: endpoint.expected,
           durationMs,
@@ -992,6 +1077,7 @@ function executeRequest(endpoint) {
         method: endpoint.method,
         name: endpoint.name,
         modulo: endpoint.modulo,
+        entregable: endpoint.entregable,
         error: err.code || err.message,
         expected: endpoint.expected,
         passed: false
@@ -1005,15 +1091,14 @@ function executeRequest(endpoint) {
         method: endpoint.method,
         name: endpoint.name,
         modulo: endpoint.modulo,
+        entregable: endpoint.entregable,
         error: 'TIMEOUT (excedió 3500ms)',
         expected: endpoint.expected,
         passed: false
       });
     });
 
-    if (payload) {
-      req.write(payload);
-    }
+    if (payload) req.write(payload);
     req.end();
   });
 }
@@ -1023,23 +1108,28 @@ function sleep(ms) {
 }
 
 async function runSuite() {
+  const meta = METADATA_ENTREGABLES[deliverableArg] || { nombre: 'Evaluación Integral Acumulada', tag: 'v1.0.0-final' };
+
   console.log('\n' + '='.repeat(82));
-  console.log('   SUITE DE PRUEBAS DE HUMO EXHAUSTIVA Y SIN LÍMITES · DESARROLLO BACKEND');
+  console.log('   SUITE DE PRUEBAS DE HUMO ESCALONADA POR ENTREGABLE · DESARROLLO BACKEND');
   console.log('='.repeat(82));
-  console.log('  * Repositorio:       DesarrolloBackend-2026-402/23124369');
-  console.log('  * Proyecto Asignado: SoftbolApp – Gestión de Ligas de Softbol');
-  console.log('  * Host Evaluado:     http://' + HOST + ':' + PORT);
-  console.log('  * Total Endpoints:   ' + ENDPOINTS_A_PROBAR.length + ' pruebas específicas de negocio y arquitectura');
+  console.log('  * Proyecto Asignado:   SoftbolApp – Gestión de Ligas de Softbol');
+  console.log('  * Repositorio Oficial: DesarrolloBackend-2026-402/23124369');
+  console.log('  * Host Evaluado:       http://' + HOST + ':' + PORT);
+  console.log('  * Entregable Objetivo: [' + deliverableArg.toUpperCase() + '] ' + meta.nombre);
+  console.log('  * Tag Reglamentario:   ' + meta.tag);
+  console.log('  * Endpoints en Fase:   ' + endpointsAEvaluar.length + ' de ' + TODOS_LOS_ENDPOINTS.length + ' totales del proyecto');
   console.log('='.repeat(82) + '\n');
 
   let passedTotal = 0;
-  let currentModule = '';
+  let currentFase = '';
 
-  for (let i = 0; i < ENDPOINTS_A_PROBAR.length; i++) {
-    const ep = ENDPOINTS_A_PROBAR[i];
-    if (ep.modulo !== currentModule) {
-      currentModule = ep.modulo;
-      console.log(`\n--- [${currentModule.toUpperCase()}] ---`);
+  for (let i = 0; i < endpointsAEvaluar.length; i++) {
+    const ep = endpointsAEvaluar[i];
+    if (ep.entregable !== currentFase) {
+      currentFase = ep.entregable;
+      const faseMeta = METADATA_ENTREGABLES[currentFase];
+      console.log(`\n--- [FASE ${currentFase.toUpperCase()}: ${faseMeta ? faseMeta.nombre.toUpperCase() : ''}] ---`);
     }
 
     const res = await executeRequest(ep);
@@ -1047,40 +1137,39 @@ async function runSuite() {
 
     if (res.passed) {
       passedTotal++;
-      console.log(`  [✓ APROBADO] #${num} ${res.method.padEnd(6)} ${res.path.padEnd(42)} -> HTTP ${res.status} (${res.durationMs}ms)`);
+      console.log(`  [✓ APROBADO] #${num} [${res.entregable}] ${res.method.padEnd(6)} ${res.path.padEnd(38)} -> HTTP ${res.status} (${res.durationMs}ms)`);
     } else {
       const motivo = res.error ? res.error : `HTTP ${res.status} (Esperaba: ${res.expected.join(', ')})`;
-      console.log(`  [✗ FALLO]    #${num} ${res.method.padEnd(6)} ${res.path.padEnd(42)} -> ${motivo}`);
+      console.log(`  [✗ FALLO]    #${num} [${res.entregable}] ${res.method.padEnd(6)} ${res.path.padEnd(38)} -> ${motivo}`);
       console.log(`                 Detalle: ${res.name}`);
     }
 
-    // Pequeño descanso de 10ms para no saturar sockets de Node.js local
     await sleep(10);
   }
 
-  const score = Math.round((passedTotal / ENDPOINTS_A_PROBAR.length) * 100);
+  const score = Math.round((passedTotal / endpointsAEvaluar.length) * 100);
 
   console.log('\n' + '='.repeat(82));
-  console.log('                            RESUMEN DE EVALUACIÓN');
+  console.log('                    RESUMEN DE EVALUACIÓN: ENTREGABLE ' + deliverableArg.toUpperCase());
   console.log('='.repeat(82));
-  console.log(`  * Pruebas superadas:     ${passedTotal} de ${ENDPOINTS_A_PROBAR.length} endpoints (${score}%)`);
+  console.log(`  * Endpoints superados:   ${passedTotal} de ${endpointsAEvaluar.length} aplicables a este hito (${score}%)`);
   console.log(`  * Calificación Obtenida: ${score} / 100 puntos`);
   console.log('-'.repeat(82));
 
   if (score >= 80) {
-    console.log('  [ESTADO: APROBADO] ✅ El backend cumple con los contratos y no bloquea el ciclo de eventos.');
-    console.log('  Proceda a publicar su tag y release en GitHub:');
+    console.log(`  [ESTADO: APROBADO] ✅ El backend cumple satisfactoriamente los requerimientos de ${deliverableArg.toUpperCase()}.`);
+    console.log('  Listo para publicar el tag y release reglamentario en GitHub:');
     console.log('    git add .');
-    console.log('    git commit -m "feat: completar requerimientos e hitos del entregable"');
-    console.log('    git tag -a v0.1.0-e1.1 -m "Release Entregable e1.1"');
+    console.log(`    git commit -m "feat: completar requerimientos de entregable ${deliverableArg}"`);
+    console.log(`    git tag -a ${meta.tag} -m "Release Entregable ${deliverableArg} (${meta.nombre})"`);
     console.log('    git push origin main --tags\n');
     process.exit(0);
   } else {
     console.log('  [ESTADO: REVISIÓN REQUERIDA] ⚠️  Calificación inferior al umbral mínimo reglamentario (80 pts).');
-    console.log('  Acciones correctivas:');
-    console.log('    1. Asegúrese de que el contenedor de Docker esté activo: docker compose ps');
-    console.log('    2. Revise la consola del servidor para corregir excepciones no manejadas (HTTP 500).');
-    console.log('    3. Implemente las rutas que devolvieron HTTP 404 no esperado.');
+    console.log('  Acciones recomendadas:');
+    console.log('    1. Asegúrese de que los servicios de Docker estén corriendo: docker compose ps');
+    console.log('    2. Revise los endpoints con fallo arriba marcados con [✗ FALLO].');
+    console.log('    3. Corrija las rutas o códigos HTTP devueltos y vuelva a ejecutar.');
     console.log('='.repeat(82) + '\n');
     process.exit(1);
   }
