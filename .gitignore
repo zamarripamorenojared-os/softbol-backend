@@ -1,3 +1,23 @@
+# Node
+node_modules/
+dist/
+build/
+binaries/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
+# Python / Scripts
+__pycache__/
+*.pyc
+.venv/
 Reporte_*.docx
 generar_reporte_*.py
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
