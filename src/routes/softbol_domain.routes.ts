@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { SoftbolSearchService } from '../services/softbol_search.service';
 
 export class SoftbolDomainRoutes {
   constructor(router: Router) {
@@ -45,12 +46,23 @@ export class SoftbolDomainRoutes {
       });
     });
 
-    // 5. Búsqueda y Filtros Dinámicos
-    router.get('/juegos', (req: Request, res: Response) => {
-      res.status(200).json({ data: [], filtros: req.query });
+    // 5. Búsqueda Avanzada, Paginación Estructurada y Filtros Dinámicos con Caché Redis (RF10 a RF13, RNF02)
+    router.get('/juegos', async (req: Request, res: Response) => {
+      try {
+        const resultado = await SoftbolSearchService.searchJuegos(req.query);
+        res.status(200).json(resultado);
+      } catch (err: any) {
+        res.status(500).json({ error: 'Error en búsqueda avanzada de juegos' });
+      }
     });
-    router.get('/jugadores', (req: Request, res: Response) => {
-      res.status(200).json({ data: [], filtros: req.query });
+
+    router.get('/jugadores', async (req: Request, res: Response) => {
+      try {
+        const resultado = await SoftbolSearchService.searchJugadores(req.query);
+        res.status(200).json(resultado);
+      } catch (err: any) {
+        res.status(500).json({ error: 'Error en búsqueda avanzada de jugadores' });
+      }
     });
 
     // 6. Máquina de Estados (JuegoSoftbol)
