@@ -7,44 +7,39 @@
 **Estudiante:** JARED ALEJANDRO ZAMARRIPA MORENO  
 **Proyecto Asignado:** SoftbolApp – Gestión de Ligas de Softbol  
 **Repositorio Oficial:** `DesarrolloBackend-2026-402/23124369`  
+**Fecha de Publicación:** 11 de noviembre de 2026  
 
 ---
 
-## 1. Resumen de Evaluación Técnica
+## 1. Resumen de Evaluación Técnica Asentada en Moodle
 
 | Criterio de Evaluación | Ponderación | Puntaje Obtenido | Estatus Técnico |
 | :--- | :---: | :---: | :---: |
-| **Modelado Relacional e Integridad de Entidades de Negocio** | 35 pts | **35 / 35 pts** | ✅ Aprobado |
-| **Definición de Índices B-Tree y Claves Foráneas** | 25 pts | **25 / 25 pts** | ✅ Aprobado |
-| **Catálogos Base del Dominio y Seeders Idempotentes** | 20 pts | **20 / 20 pts** | ✅ Aprobado |
-| **Pipeline de Middlewares y Formato de Errores RFC 7807** | 20 pts | **20 / 20 pts** | ✅ Aprobado |
-| **Subtotal Técnico** | **100 pts** | **100 pts** | — |
-| **Deducción por Puntualidad / Ventana de Entrega** | — | **0 pts (Puntual)** | Estatus: `A_TIEMPO` |
-| **CALIFICACIÓN FINAL ASENTADA EN MOODLE** | **100 pts** | **100 / 100 pts** | ✅ APROBADO |
+| **Modelado e Integridad de Entidades del Dominio** | 50 pts | **0 / 50 pts** | Cobertura: 0/7 (0%) |
+| **Controladores y Rutas de Negocio** | 25 pts | **25 / 25 pts** | 50 rutas/controladores implementados |
+| **Smoke Tests Personalizados para el Dominio** | 15 pts | **15 / 15 pts** | ✅ Personalizado |
+| **Pipeline CI/CD en GitHub Actions** | 10 pts | **5 / 10 pts** | Estado CI: `NO_RUNS` |
+| **CALIFICACIÓN FINAL ASENTADA EN MOODLE (Ítem 31267)** | **100 pts** | **45 / 100 pts** | **❌ NO APROBADO** |
 
 ---
 
-## 2. Diagnóstico Técnico de Persistencia y Middlewares
+## 2. Detalle de Entidades Requeridas vs Implementadas
 
-### 2.1. Modelado de Entidades del Dominio (Cap. 6)
-* **Requisitos Funcionales Asociados:** RF04 a RF06 (Entidades e integridad).
-* **Entidades Clave del Negocio Modeladas:** `TorneoSoftbol`, `CategoriaSoftbol`, `EquipoSoftbol`, `RosterJugador`, `JuegoSoftbol`, `BoxScore`, `EstadisticaBateo`.
-* **Buenas Prácticas de Persistencia:**
-  * Uso de llaves primarias UUID v4 para prevenir vulnerabilidades de enumeración secuencial en APIs REST.
-  * **Integridad Referencial:** Declaración explícita de reglas `onDelete: 'RESTRICT'` o `'CASCADE'` en relaciones padre-hijo para evitar registros huérfanos.
-  * Trazabilidad temporal: Incorporación de marcas de tiempo automáticas (`@CreateDateColumn()`, `@UpdateDateColumn()`).
+* **Entidades Requeridas del Proyecto (7):** `TorneoSoftbol`, `CategoriaSoftbol`, `EquipoSoftbol`, `RosterJugador`, `JuegoSoftbol`, `BoxScore`, `EstadisticaBateo`
+* **Entidades Implementadas con Éxito (0):** *Ninguna entidad del proyecto implementada (solo plantilla inicial).*
+* **Entidades Faltantes (7):** `TorneoSoftbol`, `CategoriaSoftbol`, `EquipoSoftbol`, `RosterJugador`, `JuegoSoftbol`, `BoxScore`, `EstadisticaBateo`
+* **Dictamen de Auditoría:** El estudiante recibió 100 en el Entregable 1.2 pero implementó 0 de 7 entidades requeridas. Solo tiene los archivos de la plantilla inicial.
 
-### 2.2. Optimización con Índices B-Tree (Cap. 6 y 14)
-* **Índices Requeridos para el Dominio:** `juegos(torneo_id, fecha_juego)`, `jugadores(equipo_id, posicion)`.
-* **Criterio de Desempeño:**
-  * Definición explícita de anotaciones `@Index()` en columnas de filtrado frecuente, claves foráneas y campos con restricción `UNIQUE` para evitar escaneos secuenciales (*Seq Scan*) en PostgreSQL.
 
-### 2.3. Cadena de Middlewares y Manejo de Errores RFC 7807 (Cap. 12 y 14)
-* **Orden del Pipeline en Express:** Seguridad perimetral (Helmet, CORS) -> Parser JSON -> Logger -> Rutas con validación de DTOs -> Manejador centralizado de errores.
-* **Estandarización de Errores (RFC 7807):** Retornar respuestas con `Content-Type: application/problem+json` conteniendo los atributos `type`, `title`, `status`, `detail` e `instance`.
-
----
-
-## 3. Preparación para la Semana 2
-* **Entregable 2.1 (Jueves 12 de Noviembre):** Se integrará búsqueda multicriterio avanzada, paginación estructurada (`limit`, `offset`) y capa de caché en memoria con Redis.
+> [!IMPORTANT]
+> **VENTANA EXTRAORDINARIA DE SEGUNDA OPORTUNIDAD (TAG `v0.1.1-e1.2-rev`):**
+> Dispones de **48 horas** (fecha límite: **Viernes 13 de noviembre de 2026, 23:59 hrs Sinaloa / UTC-7**) para regularizar tu entrega:
+> 1. Implementa las entidades faltantes (`TorneoSoftbol`, `CategoriaSoftbol`, `EquipoSoftbol`, `RosterJugador`, `JuegoSoftbol`, `BoxScore`, `EstadisticaBateo`) en `prisma/schema.prisma` o `src/domain/entities/`.
+> 2. Asegúrate de que las pruebas automatizadas y el pipeline de CI en GitHub Actions pasen en verde.
+> 3. Genera y publica la etiqueta de reentrega:
+>    ```bash
+>    git tag -a v0.1.1-e1.2-rev -m "fix(e1.2-rev): regularizacion de entidades faltantes y pruebas"
+>    git push origin v0.1.1-e1.2-rev
+>    ```
+> **Calificación máxima de reentrega:** **85 / 100** (o 70 si el proyecto tuvo penalización de requerimientos).
 
