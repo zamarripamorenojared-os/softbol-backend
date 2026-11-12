@@ -76,3 +76,4 @@ export class EstadisticaBateo {
     public homeruns: number = 0
   ) {}
 }
+
