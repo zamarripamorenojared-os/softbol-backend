@@ -3,6 +3,7 @@
 **Profesor Titular:** Dr. Herman Geovany Ayala Zúñiga  
 **Proyecto Asignado:** SoftbolApp – Gestión de Ligas de Softbol  
 **Repositorio Institucional:** `DesarrolloBackend-2026-402/23124369`  
+**Estudiante:** JARED ALEJANDRO ZAMARRIPA MORENO  
 **Fecha de Auditoría:** 11 de noviembre de 2026  
 
 ---
@@ -12,41 +13,27 @@
 | Hito / Entregable | Tag Git | Estatus de Entrega | Calificación Obtenida | Estado Académico |
 | :--- | :---: | :---: | :---: | :---: |
 | **Entregable 1.1: Arquitectura Limpia, Docker y JWT** | `v0.1.0-e1.1` | A_TIEMPO | **100 / 100** | ✅ Acreditado |
-| **Entregable 1.2: Entidades de Negocio e Índices B-Tree** | `v0.1.0-e1.2` | A_TIEMPO | **45 / 100** | ⚠️ Requiere Regularización |
-| **PROMEDIO GLOBAL SEMANA 1** | — | — | **72.5 / 100** | ✅ APROBADO |
+| **Entregable 1.2: Entidades de Negocio e Índices B-Tree** | `v0.1.0-e1.2` | A_TIEMPO | **45 / 100** | ❌ No Acreditado |
+| **Promedio Global Ponderado Semana 1** | — | — | **72.5 / 100** | ✅ Aprobatorio |
+
+> **Nota de Sincronización:** Estas calificaciones coinciden al 100% con los ítems de calificación registrados en la plataforma Moodle (Ítem 31266 para E1.1 e Ítem 31267 para E1.2).
 
 ---
 
 ## 🔍 2. Desglose Técnico Justificado de la Calificación
 
 ### Entregable 1.1 (`v0.1.0-e1.1`): Calificación: **100 / 100**
-* **Arquitectura Limpia y TypeScript (+35 pts):** ✅ Estructura en capas implementada correctamente (`domain`, `application`, `infrastructure`).
-* **Orquestación Docker Compose (+30 pts):** ✅ Archivo `docker-compose.yml` verificado con servicios PostgreSQL 16 y Redis 7.
-* **Seguridad y Autenticación JWT / Bcrypt (+25 pts):** ✅ Hashing seguro y verificación de tokens JWT implementada.
-* **Suite de Pruebas de Humo (+10 pts):** ✅ Script de smoke test (`scripts/smoke_test.js`) presente.
+* **Separación de Capas:** Estructura modular limpia implementada (+35 pts).
+* **Infraestructura Contenedores:** Docker Compose con PostgreSQL y Redis configurado (+30 pts).
+* **Autenticación JWT:** Módulo de autenticación con hash y JWT verificado (+25 pts).
+* **Smoke Testing:** Script de smoke test presente (+10 pts).
 
 ### Entregable 1.2 (`v0.1.0-e1.2`): Calificación: **45 / 100**
-* **Modelado de Entidades Relacionales (+50 pts max):**
-  * **Requeridas por especificación:** **7** entidades.
-  * **Implementadas en el código:** **0** entidades (0% de cobertura).
-  * **Puntaje obtenido:** **0 / 50 pts**.
-  * **Entidades del proyecto encontradas:**
-  - *Ninguna entidad del proyecto implementada (solo plantilla inicial).*
-  * **Entidades faltantes por implementar:**
-  - `TorneoSoftbol`
-  - `CategoriaSoftbol`
-  - `EquipoSoftbol`
-  - `RosterJugador`
-  - `JuegoSoftbol`
-  - `BoxScore`
-  - `EstadisticaBateo`
-* **Controladores y Rutas de Dominio Propio (+25 pts):** ✅ 50 controladores específicos implementados (+25 pts).
-* **Smoke Tests Escalonados (+15 pts):** ✅ Pruebas adaptadas al modelo de datos del proyecto (+15 pts).
-* **Integración Continua GitHub Actions (+10 pts):** ⚪ Sin ejecuciones registradas (+5 pts si tiene tests locales).
-
----
-
-## 📢 3. Observaciones de la Auditoría Técnica
+* **Cobertura de Entidades del Dominio:** 0 de 7 entidades implementadas (0% de cobertura).
+  * **Entidades Implementadas:** *Ninguna*
+  * **Entidades Faltantes:** `TorneoSoftbol`, `CategoriaSoftbol`, `EquipoSoftbol`, `RosterJugador`, `JuegoSoftbol`, `BoxScore`, `EstadisticaBateo`
+* **Controladores y Rutas de Negocio:** 50 rutas/controladores implementados.
+* **Pruebas Automatizadas y CI/CD:** GitHub Actions en estado `NO_RUNS`.
 * El estudiante recibió 100 en el Entregable 1.2 pero implementó 0 de 7 entidades requeridas. Solo tiene los archivos de la plantilla inicial.
 
 
@@ -60,7 +47,7 @@
 >    git tag -a v0.1.1-e1.2-rev -m "fix(e1.2-rev): regularizacion de entidades faltantes y pruebas"
 >    git push origin v0.1.1-e1.2-rev
 >    ```
-> **Calificación máxima de reentrega:** **85 / 100**.
+> **Calificación máxima de reentrega:** **85 / 100** (o 70 pts si tuvo regularización tardía de requerimientos).
 
 ---
-*Informe generado automáticamente por el Sistema de Autograding y Auditoría Bimodal Institucional · UAS Facultad de Ingeniería Mochis.*
+*Generado automáticamente por el Sistema de Evaluación y Auditoría Técnica Continua (Antigravity · UAS).*
