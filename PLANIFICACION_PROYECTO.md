@@ -8,7 +8,8 @@
 * **Proyecto Asignado:** **SoftbolApp – Gestión de Ligas de Softbol**
 * **Descripción del Dominio:** Plataforma backend para torneos de softbol: boxscore, estadísticas ofensivas/defensivas, rol de juegos y tabla de posiciones.
 
-Este documento establece la planeación técnica formal de 4 semanas, organizada en **2 entregables por semana (8 entregables totales)** con fechas límite indefectibles cada **Jueves** y **Domingo**.
+
+Este documento establece la planeación técnica formal de 5 semanas, organizada en **2 entregables por semana (10 entregables totales)** con fechas límite indefectibles cada **Jueves** y **Domingo**.
 
 Cada estudiante debe integrar en su proyecto los conceptos y componentes de ingeniería backend desarrollados en los materiales del curso (Capítulos 3 al 18), cubriendo la totalidad de los requerimientos funcionales y no funcionales de su propuesta y publicando las etiquetas de versión reglamentarias (tags de Git) en GitHub antes del cierre de cada hito.
 
@@ -20,14 +21,16 @@ Cada estudiante debe integrar en su proyecto los conceptos y componentes de inge
 
 | Semana | Entregable | Fecha Límite Reglamentaria | Tag Obligatorio | Hito Técnico a Implementar (RF y RNF Asociados) | Capítulos de Referencia |
 | :---: | :---: | :--- | :---: | :--- | :--- |
-| Semana 1 | e1.1 | **Jueves**<br>Jueves 05 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.1` | **Arquitectura limpia en TypeScript, entorno Docker, patrones creacionales y autenticación con JWT**<br>• *RF:* RF01 a RF05 (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC)<br>• *RNF:* RNF01 (Seguridad JWT y Hashing de Contraseñas), RNF05 (Mantenibilidad y Clean Architecture) | Cap. 3, 4, 5, 10, 11, 13 |
-| Semana 1 | e1.2 | **Domingo**<br>Domingo 08 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.2` | **Modelado de entidades de negocio, catálogos base, índices en base de datos y cadena de middlewares**<br>• *RF:* RF06 a RF09 (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas)<br>• *RNF:* RNF03 (Integridad Referencial en Base de Datos), RNF08 (Validación Estricta de Entradas con DTOs) | Cap. 6, 12, 14 |
-| Semana 2 | e2.1 | **Jueves**<br>Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.1` | **Búsqueda avanzada, paginación de resultados, optimización de consultas y caché con Redis**<br>• *RF:* RF10 a RF13 (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria)<br>• *RNF:* RNF02 (Rendimiento de Consulta < 200ms con Índices B-Tree y Redis) | Cap. 6, 7, 14 |
-| Semana 2 | e2.2 | **Domingo**<br>Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.2` | **Transacciones atómicas ACID, control de concurrencia y suite de pruebas automatizadas**<br>• *RF:* RF14 a RF18 (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa)<br>• *RNF:* RNF03 (Atomicidad y Consistencia ACID con Rollback Automático), RNF04 (Disponibilidad Continua) | Cap. 6, 9, 15 |
-| Semana 3 | e3.1 | **Jueves**<br>Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.1` | **Máquina de estados de negocio, procesamiento asíncrono con colas y sistema de notificaciones**<br>• *RF:* RF19 a RF22 (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas)<br>• *RNF:* RNF06 (Escalabilidad Horizontal con Procesamiento en Colas BullMQ) | Cap. 8, 12, 16 |
-| Semana 3 | e3.2 | **Domingo**<br>Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.2` | **Flujo de eventos, registro de auditoría inmutable y proyección analítica CQRS**<br>• *RF:* RF23 a RF25 (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas)<br>• *RNF:* RNF09 (Trazabilidad y Registro Inmutable de Operaciones Críticas) | Cap. 16, 17 |
-| Semana 4 | e4.1 | **Jueves**<br>Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.4.0-e4.1` | **Módulo de reportes analíticos, optimización del ciclo de eventos y subprocesos Worker Threads**<br>• *RF:* RF26 a RF30 (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo)<br>• *RNF:* RNF02 (No Bloqueo del Ciclo de Eventos mediante Subprocesos Worker Threads) | Cap. 18 |
-| Semana 4 | e4.2 | **Domingo**<br>Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v1.0.0-final` | **Versión final de producción 1.0.0, documentación OpenAPI/Swagger y suite completa de pruebas**<br>• *RF:* RF01 a RF30 (100% de Requerimientos Funcionales) (Cobertura integral de todas las operaciones del sistema, suite completa de pruebas de humo y documentación)<br>• *RNF:* RNF01 a RNF08 (100% de Requerimientos No Funcionales: Seguridad, Rendimiento, Docker y Respaldos) | Cap. 9, 10, 13 |
+| Semana 1 | e1.1 | **Jueves**<br>Jueves 05 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.1.0-e1.1` | **Arquitectura limpia en TypeScript, entorno Docker, patrones creacionales y autenticación con JWT**<br>• *RF:* RF01 a RF05 (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC)<br>• *RNF:* RNF01 (Seguridad JWT y Hashing de Contraseñas), RNF05 (Mantenibilidad y Clean Architecture) | Cap. 3, 4, 5, 10, 11, 13 |
+| Semana 1 | e1.2 | **Domingo**<br>Domingo 08 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.1.0-e1.2` | **Modelado de entidades de negocio, catálogos base, índices en base de datos y cadena de middlewares**<br>• *RF:* RF06 a RF09 (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas)<br>• *RNF:* RNF03 (Integridad Referencial en Base de Datos), RNF08 (Validación Estricta de Entradas con DTOs) | Cap. 6, 12, 14 |
+| Semana 2 | e2.1 | **Jueves**<br>Jueves 12 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.2.0-e2.1` | **Búsqueda avanzada, paginación de resultados, optimización de consultas y caché con Redis**<br>• *RF:* RF10 a RF14 (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria)<br>• *RNF:* RNF02 (Rendimiento de Consulta < 200ms con Índices B-Tree y Redis) | Cap. 6, 7, 14 |
+| Semana 2 | e2.2 | **Domingo**<br>Domingo 15 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.2.0-e2.2` | **Transacciones atómicas ACID, control de concurrencia y suite de pruebas automatizadas**<br>• *RF:* RF15 a RF18 (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa)<br>• *RNF:* RNF03 (Atomicidad y Consistencia ACID con Rollback Automático), RNF04 (Disponibilidad Continua) | Cap. 6, 9, 15 |
+| Semana 3 | e3.1 | **Jueves**<br>Jueves 19 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.3.0-e3.1` | **Máquina de estados de negocio, procesamiento asíncrono con colas y sistema de notificaciones**<br>• *RF:* RF19 a RF23 (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas)<br>• *RNF:* RNF06 (Escalabilidad Horizontal con Procesamiento en Colas BullMQ) | Cap. 8, 12, 16 |
+| Semana 3 | e3.2 | **Domingo**<br>Domingo 22 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.3.0-e3.2` | **Flujo de eventos, registro de auditoría inmutable y proyección analítica CQRS**<br>• *RF:* RF24 a RF26 (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas)<br>• *RNF:* RNF09 (Trazabilidad y Registro Inmutable de Operaciones Críticas) | Cap. 16, 17 |
+| Semana 4 | e4.1 | **Jueves**<br>Jueves 26 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.4.0-e4.1` | **Módulo de reportes analíticos, optimización del ciclo de eventos y subprocesos Worker Threads**<br>• *RF:* RF27 a RF30 (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo)<br>• *RNF:* RNF02 (No Bloqueo del Ciclo de Eventos mediante Subprocesos Worker Threads) | Cap. 18 |
+| Semana 4 | e4.2 | **Domingo**<br>Domingo 29 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.4.0-e4.2` | **Documentación interactiva OpenAPI 3.0 / Swagger UI y Suite de Pruebas de Integración E2E**<br>• *RF:* RF01 a RF30 (Cobertura Funcional Completa) (Documentación interactiva OpenAPI 3.0 / Swagger UI y Suite de Pruebas de Integración E2E)<br>• *RNF:* RNF07 (Despliegue Contenedorizado en Docker Compose), RNF10 (Respaldo Automatizado de Base de Datos) | Cap. 9, 10, 13 |
+| Semana 5 | e5.1 | **Jueves**<br>Jueves 03 de diciembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v0.5.0-e5.1` | **Auditoría ofensiva, defensa BOLA/IDOR, condiciones de carrera, validación de esquemas y rate limiting anti-fuerza bruta**<br>• *RF:* RF01 a RF30 (Auditoría Ofensiva y Resiliencia) (Auditoría ofensiva, defensa BOLA/IDOR, condiciones de carrera, validación de esquemas y rate limiting anti-fuerza bruta)<br>• *RNF:* RNF11 (Defensa BOLA/IDOR y Control RBAC), RNF12 (Resiliencia HTTP y Sanitización DTO), RNF13 (Protección Anti-Fuerza Bruta) | Cap. 5, 9, 12, 13, OWASP API Security |
+| Semana 5 | e5.2 | **Domingo**<br>Domingo 06 de diciembre de 2026, 23:59 hrs Sinaloa (UTC-7) | `v1.0.0-final` | **Evaluación de rendimiento y pruebas de carga masiva con k6 (Load & Spike Testing) y versión final 1.0.0 para producción**<br>• *RF:* RF01 a RF30 (100% de Requerimientos Funcionales) (Evaluación de rendimiento y pruebas de carga masiva con k6 (Load & Spike Testing) y versión final 1.0.0 para producción)<br>• *RNF:* RNF01 a RNF08 + RNF14 (Capacidad de Carga y Concurrencia k6), RNF15 (Disponibilidad bajo Estrés) | Cap. 9, 10, 14, 18, k6 Performance Engineering |
 
 ---
 
@@ -38,7 +41,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 1: Cimientos de Arquitectura, Persistencia y Seguridad
 
 #### Entregable 1.1 (`v0.1.0-e1.1`): Arquitectura Limpia, Docker y Autenticación JWT
-* **Fecha Límite:** Jueves 05 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 05 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 3 (Express.js), Cap. 4 (Planeación de la Aplicación), Cap. 5 (Módulo de Usuarios y JWT), Cap. 10 (Docker Compose), Cap. 11 (Patrones Creacionales: Singleton), Cap. 13 (Principios SOLID y Arquitectura Limpia).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF01 a RF05` (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC).
@@ -54,7 +57,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
     - **Jugador**
 
 #### Entregable 1.2 (`v0.1.0-e1.2`): Entidades de Negocio, Catálogos e Índices B-Tree
-* **Fecha Límite:** Domingo 08 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 08 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 6 (Módulos de Entidades y Relaciones), Cap. 12 (Cadena de Middlewares), Cap. 14 (Motores de Almacenamiento e Índices B-Tree).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF06 a RF09` (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas).
@@ -78,10 +81,10 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 2: Optimización de Consultas, Transacciones y Pruebas
 
 #### Entregable 2.1 (`v0.2.0-e2.1`): Búsqueda Avanzada, Paginación y Caché con Redis
-* **Fecha Límite:** Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 12 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 6 (Consultas Avanzadas), Cap. 7 (Almacenamiento en Caché de APIs con Redis), Cap. 14 (Optimización de Consultas y EXPLAIN ANALYZE).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF10 a RF13` (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria).
+  - **Requerimientos Funcionales:** `RF10 a RF14` (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria).
   - **Requerimientos No Funcionales:** `RNF02 (Rendimiento de Consulta < 200ms con Índices B-Tree y Redis)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Endpoints de búsqueda dinámica y filtros multicriterio:** /api/v1/juegos?fecha=... y /api/v1/jugadores?torneo=...&lideres=true.
@@ -90,10 +93,10 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Capa de almacenamiento en caché con Redis:** Almacenamiento en memoria RAM para catálogos y consultas de lectura intensiva, con tiempo de expiración (`TTL`) e invalidación automática ante eventos de creación, actualización o eliminación.
 
 #### Entregable 2.2 (`v0.2.0-e2.2`): Transacciones Atómicas ACID y Pruebas Automatizadas
-* **Fecha Límite:** Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 15 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 6 (Transacciones ACID), Cap. 9 (Pruebas Automatizadas de APIs), Cap. 15 (Transacciones Avanzadas, Niveles de Aislamiento y Concurrencia).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF14 a RF18` (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa).
+  - **Requerimientos Funcionales:** `RF15 a RF18` (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa).
   - **Requerimientos No Funcionales:** `RNF03 (Atomicidad y Consistencia ACID con Rollback Automático), RNF04 (Disponibilidad Continua)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Operación transaccional crítica (ACID):**
@@ -107,10 +110,10 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 3: Eventos de Negocio, Mensajería y Auditoría Inmutable
 
 #### Entregable 3.1 (`v0.3.0-e3.1`): Máquina de Estados y Procesamiento Asíncrono con Colas
-* **Fecha Límite:** Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 19 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 8 (Módulo de Notificaciones y BullMQ), Cap. 12 (Máquinas de Estados y Patrón Observer), Cap. 16 (Patrones de Mensajería Asíncrona).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF19 a RF22` (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas).
+  - **Requerimientos Funcionales:** `RF19 a RF23` (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas).
   - **Requerimientos No Funcionales:** `RNF06 (Escalabilidad Horizontal con Procesamiento en Colas BullMQ)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Máquina de estados finita:** Control estricto del ciclo de vida de **JuegoSoftbol** impidiendo transiciones inválidas:
@@ -124,10 +127,10 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Políticas de resiliencia:** Confirmaciones manuales (`ack` / `nack`), reintentos exponenciales y manejo de colas de mensajes fallidos (`dead letter queue`).
 
 #### Entregable 3.2 (`v0.3.0-e3.2`): Flujo de Eventos, Registro de Auditoría y CQRS
-* **Fecha Límite:** Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 22 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 16 (Arquitecturas Desacopladas por Eventos), Cap. 17 (Procesamiento de Flujos de Eventos y Captura de Cambios CDC).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF23 a RF25` (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas).
+  - **Requerimientos Funcionales:** `RF24 a RF26` (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas).
   - **Requerimientos No Funcionales:** `RNF09 (Trazabilidad y Registro Inmutable de Operaciones Críticas)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Registro inmutable de auditoría (Audit Log):** Almacenamiento de trazas de operaciones críticas: usuario responsable, dirección IP, marca de tiempo (`timestamp`), entidad afectada y estado previo/posterior.
@@ -138,10 +141,10 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 4: Módulo de Reportes, Cómputo Paralelo y Versión Final 1.0.0
 
 #### Entregable 4.1 (`v0.4.0-e4.1`): Módulo de Reportes Analíticos y Worker Threads
-* **Fecha Límite:** Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 26 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 18 (Optimización del Ciclo de Eventos, Worker Threads y Procesos Hijo).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF26 a RF30` (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo).
+  - **Requerimientos Funcionales:** `RF27 a RF30` (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo).
   - **Requerimientos No Funcionales:** `RNF02 (No Bloqueo del Ciclo de Eventos mediante Subprocesos Worker Threads)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Módulo de reportes analíticos:**
@@ -149,16 +152,47 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Cómputo paralelo con `worker_threads` (`workerpool`):** Delegación de agregaciones estadísticas complejas, cálculos analíticos y consolidación de datos a hilos trabajadores independientes para **no bloquear el ciclo de eventos principal (Event Loop)** de Node.js.
   - **Endpoints de reportes:** Rutas dedicadas protegidas para la consulta y exportación de reportes ejecutivos.
 
-#### Entregable 4.2 (`v1.0.0-final`): Versión 1.0.0, OpenAPI/Swagger y Entrega Final
-* **Fecha Límite:** Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+#### Entregable 4.2 (`v0.4.0-e4.2`): Documentación OpenAPI/Swagger y Pruebas E2E
+* **Fecha Límite:** Domingo 29 de noviembre de 2026, 23:59 hrs Sinaloa (UTC-7).
 * **Capítulos de Referencia:** Cap. 9 (Cobertura Total de Pruebas), Cap. 10 (Despliegue en Producción), Cap. 13 (Verificación de Clean Architecture).
 * **Requerimientos Cubiertos:**
-  - **Requerimientos Funcionales:** `RF01 a RF30 (100% de Requerimientos Funcionales)`.
-  - **Requerimientos No Funcionales:** `RNF01 a RNF08 (100% de Requerimientos No Funcionales: Seguridad, Rendimiento, Docker y Respaldos)`.
+  - **Requerimientos Funcionales:** `RF01 a RF30 (Cobertura Funcional Completa)` (Documentación interactiva OpenAPI 3.0 / Swagger UI y Suite de Pruebas de Integración E2E).
+  - **Requerimientos No Funcionales:** `RNF07 (Despliegue Contenedorizado en Docker Compose), RNF10 (Respaldo Automatizado de Base de Datos)`.
 * **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
   - **Documentación OpenAPI 3.0 / Swagger UI:** Interfaz interactiva en `/api/docs` con esquemas de petición, respuesta y autenticación Bearer JWT.
-  - **Verificación de pruebas de humo:** Ejecución exitosa de `node scripts/smoke_test.js` previo a la liberación.
-  - **Release formal en GitHub:** Publicación reglamentaria de la versión `v1.0.0-final` en la sección de releases de GitHub con notas de versión completas (changelog).
+  - **Verificación de pruebas de humo integradas:** Ejecución exitosa de `node scripts/smoke_test.js --deliverable=e4.2` previo a la liberación del hito.
+  - **Etiqueta reglamentaria:** Tag `v0.4.0-e4.2` publicado en GitHub con notas de versión.
+
+---
+
+### Semana 5: Ciberseguridad Ofensiva, Resiliencia y Pruebas de Carga Masiva con k6
+
+#### Entregable 5.1 (`v0.5.0-e5.1`): Auditoría Ofensiva, BOLA/IDOR, Concurrencia y Rate Limiting
+* **Fecha Límite:** Jueves 03 de diciembre de 2026, 23:59 hrs Sinaloa (UTC-7).
+* **Capítulos de Referencia:** Cap. 5 (Seguridad en APIs), Cap. 9 (Pruebas de Resiliencia), Cap. 12 (Middlewares de Seguridad), Cap. 13 (Validación Estricta de Esquemas), OWASP API Security Top 10.
+* **Requerimientos Cubiertos:**
+  - **Requerimientos Funcionales:** `RF01 a RF30 (Auditoría Ofensiva y Resiliencia)` (Auditoría ofensiva, defensa BOLA/IDOR, condiciones de carrera, validación de esquemas y rate limiting anti-fuerza bruta).
+  - **Requerimientos No Funcionales:** `RNF11 (Defensa BOLA/IDOR y Control RBAC), RNF12 (Resiliencia HTTP y Sanitización DTO), RNF13 (Protección Anti-Fuerza Bruta)`.
+* **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
+  - **Defensa estricta contra BOLA / IDOR (Broken Object Level Authorization):** Validación criptográfica y lógica para impedir que usuarios legítimos accedan o modifiquen recursos de otros usuarios manipulando IDs en URLs o cuerpos de petición.
+  - **Prevención de condiciones de carrera (Race Conditions):** Protección atómica ante doble petición concurrente en milisegundos idénticos para transacciones críticas de stock/saldo (`SELECT ... FOR UPDATE` o bloqueo optimista).
+  - **Mitigación de ataques de fuerza bruta en autenticación:** Implementación de Rate Limiting con bloqueo temporal y código HTTP `429 Too Many Requests` con cabecera `Retry-After` tras 5 intentos fallidos consecutivos en `/api/v1/auth/login`.
+  - **Validación robusta de esquemas y rechazo de asignación masiva:** Rechazo limpio (`400 Bad Request` / `422 Unprocessable Entity`) ante campos obligatorios omitidos, tipos incompatibles o parámetros desconocidos inyectados.
+  - **Seguridad en tokens JWT:** Rechazo de tokens con firma alterada, expirados o con algoritmo `"none"`, así como revocación efectiva en lista negra (Redis) tras logout.
+  - **Cabeceras seguras OWASP y límite de carga:** Cabeceras `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, ocultamiento de `X-Powered-By` y límite de tamaño de payload (`413 Payload Too Large`).
+
+#### Entregable 5.2 (`v1.0.0-final`): Evaluación de Rendimiento con k6 y Versión Final 1.0.0
+* **Fecha Límite:** Domingo 06 de diciembre de 2026, 23:59 hrs Sinaloa (UTC-7).
+* **Capítulos de Referencia:** Cap. 9 (Cobertura Total de Pruebas), Cap. 10 (Despliegue en Producción), Cap. 14 (Optimización de Base de Datos), Cap. 18 (Worker Threads y Asincronía), k6 Performance Testing.
+* **Requerimientos Cubiertos:**
+  - **Requerimientos Funcionales:** `RF01 a RF30 (100% de Requerimientos Funcionales)` (Evaluación de rendimiento y pruebas de carga masiva con k6 (Load & Spike Testing) y versión final 1.0.0 para producción).
+  - **Requerimientos No Funcionales:** `RNF01 a RNF08 + RNF14 (Capacidad de Carga y Concurrencia k6), RNF15 (Disponibilidad bajo Estrés)`.
+* **Elementos Específicos a Integrar en SoftbolApp – Gestión de Ligas de Softbol:**
+  - **Evaluación de carga con k6 (`scripts/k6_load_test.js`):** Escenarios de carga sostenida (100 usuarios virtuales concurrentes VUs) con umbrales estrictos de rendimiento:
+    * 95% de peticiones resueltas en menos de 200ms (`http_req_duration: p(95)<200`).
+    * Tasa de error inferior al 1% (`http_req_failed: rate<0.01`).
+  - **Prueba de pico súbito (Spike Testing):** Disparo de 250 VUs en 5 segundos verificando la estabilidad del pool de conexiones de PostgreSQL y la tasa de aciertos de Redis (*Cache Hit Ratio*).
+  - **Entrega oficial versión 1.0.0 final:** Release formal `v1.0.0-final` publicado en GitHub con notas de versión completas, suite completa de pruebas de humo (`smoke_test.js`), pruebas de seguridad (`security_robustness_test.js`) y reporte de k6 (`k6_load_test.js`).
 
 ---
 
@@ -170,17 +204,21 @@ Esta matriz certifica que la totalidad de los requerimientos funcionales y no fu
 | :---: | :---: | :--- | :---: | :---: | :--- |
 | **RF01 a RF05** | Funcional | Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC | e1.1 (Semana 1) | `v0.1.0-e1.1` | Pruebas de autenticación y endpoints RBAC (`/api/v1/auth`) |
 | **RF06 a RF09** | Funcional | Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas | e1.2 (Semana 1) | `v0.1.0-e1.2` | Validación de esquemas DTO y consultas a catálogos base |
-| **RF10 a RF13** | Funcional | Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria | e2.1 (Semana 2) | `v0.2.0-e2.1` | Pruebas de carga con caché Redis y planes `EXPLAIN ANALYZE` |
-| **RF14 a RF18** | Funcional | Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa | e2.2 (Semana 2) | `v0.2.0-e2.2` | Pruebas de concurrencia y atomicidad ACID con rollback |
-| **RF19 a RF22** | Funcional | Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas | e3.1 (Semana 3) | `v0.3.0-e3.1` | Validación de transiciones de estado y consumo en cola BullMQ |
-| **RF23 a RF25** | Funcional | Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas | e3.2 (Semana 3) | `v0.3.0-e3.2` | Auditoría inmutable de eventos y consistencia en lectura CQRS |
-| **RF26 a RF30** | Funcional | Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo | e4.1 (Semana 4) | `v0.4.0-e4.1` | Pruebas de no bloqueo del ciclo de eventos con Worker Threads |
-| **RF01 a RF30 (100% de Requerimientos Funcionales)** | Funcional | Cobertura integral de todas las operaciones del sistema | e4.2 (Semana 4) | `v1.0.0-final` | Suite completa de pruebas de humo y especificación Swagger UI |
+| **RF10 a RF14** | Funcional | Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria | e2.1 (Semana 2) | `v0.2.0-e2.1` | Pruebas de carga con caché Redis y planes `EXPLAIN ANALYZE` |
+| **RF15 a RF18** | Funcional | Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa | e2.2 (Semana 2) | `v0.2.0-e2.2` | Pruebas de concurrencia y atomicidad ACID con rollback |
+| **RF19 a RF23** | Funcional | Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas | e3.1 (Semana 3) | `v0.3.0-e3.1` | Validación de transiciones de estado y consumo en cola BullMQ |
+| **RF24 a RF26** | Funcional | Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas | e3.2 (Semana 3) | `v0.3.0-e3.2` | Auditoría inmutable de eventos y consistencia en lectura CQRS |
+| **RF27 a RF30** | Funcional | Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo | e4.1 (Semana 4) | `v0.4.0-e4.1` | Pruebas de no bloqueo del ciclo de eventos con Worker Threads |
+| **RF01 a RF30 (Cobertura Funcional Completa)** | Funcional | Documentación interactiva OpenAPI 3.0 / Swagger UI y Suite de Pruebas de Integración E2E | e4.2 (Semana 4) | `v0.4.0-e4.2` | Pruebas E2E completas y especificación interactiva Swagger UI |
+| **RF01 a RF30 (Auditoría Ofensiva y Resiliencia)** | Funcional | Auditoría ofensiva, defensa BOLA/IDOR, condiciones de carrera, validación de esquemas y rate limiting anti-fuerza bruta | e5.1 (Semana 5) | `v0.5.0-e5.1` | Suite de seguridad ofensiva (`security_robustness_test.js`) |
+| **RF01 a RF30 (100% de Requerimientos Funcionales)** | Funcional | Cobertura integral y rendimiento bajo tráfico masivo | e5.2 (Semana 5) | `v1.0.0-final` | Evaluación de carga con k6 (`k6_load_test.js`) y release final |
 | **RNF01, RNF05** | No Funcional | Seguridad de credenciales, cifrado Bcrypt y Clean Architecture | e1.1 / e4.2 | `v0.1.0-e1.1` | Inspección estática de código y análisis de dependencias |
 | **RNF03, RNF08** | No Funcional | Integridad referencial y validación estricta de payloads JSON | e1.2 / e2.2 | `v0.1.0-e1.2` | Pruebas de contrato con datos inválidos (código 400 y 422) |
 | **RNF02, RNF06** | No Funcional | Rendimiento óptimo (<200ms) y escalabilidad asíncrona | e2.1 / e4.1 | `v0.2.0-e2.1` | Métricas de latencia con Redis y Workers paralelos |
 | **RNF04, RNF09** | No Funcional | Disponibilidad continua, trazabilidad e inmutabilidad de logs | e2.2 / e3.2 | `v0.3.0-e3.2` | Verificación de bitácora histórica y persistencia en fallos |
-| **RNF07, RNF10** | No Funcional | Despliegue reproducible en Docker y respaldo de base de datos | e1.1 / e4.2 | `v1.0.0-final` | Despliegue en contenedor Docker y pruebas de humo integradas |
+| **RNF07, RNF10** | No Funcional | Despliegue reproducible en Docker y respaldo de base de datos | e1.1 / e4.2 | `v0.4.0-e4.2` | Despliegue en contenedor Docker y pruebas E2E integradas |
+| **RNF11, RNF12, RNF13** | No Funcional | Ciberseguridad ofensiva, defensa BOLA/IDOR, Rate Limiting y OWASP | e5.1 (Semana 5) | `v0.5.0-e5.1` | Pruebas de inyección, manipulación de IDs y bloqueo 429 |
+| **RNF14, RNF15** | No Funcional | Rendimiento sostenido y resiliencia bajo picos súbitos con k6 | e5.2 (Semana 5) | `v1.0.0-final` | Prueba de carga k6 (100 VUs p95<200ms y spike 250 VUs) |
 
 ---
 
@@ -201,7 +239,8 @@ Las entregas se cierran indefectiblemente los días **Jueves** (Entregable .1) y
 - **Semana 1:** Jueves 05 de noviembre de 2026 (`v0.1.0-e1.1`) y Domingo 08 de noviembre de 2026 (`v0.1.0-e1.2`).
 - **Semana 2:** Jueves 12 de noviembre de 2026 (`v0.2.0-e2.1`) y Domingo 15 de noviembre de 2026 (`v0.2.0-e2.2`).
 - **Semana 3:** Jueves 19 de noviembre de 2026 (`v0.3.0-e3.1`) y Domingo 22 de noviembre de 2026 (`v0.3.0-e3.2`).
-- **Semana 4:** Jueves 26 de noviembre de 2026 (`v0.4.0-e4.1`) y Domingo 29 de noviembre de 2026 (`v1.0.0-final`).
+- **Semana 4:** Jueves 26 de noviembre de 2026 (`v0.4.0-e4.1`) y Domingo 29 de noviembre de 2026 (`v0.4.0-e4.2`).
+- **Semana 5:** Jueves 03 de diciembre de 2026 (`v0.5.0-e5.1`) y Domingo 06 de diciembre de 2026 (`v1.0.0-final`).
 
 ### 5.2 Ponderación de Evaluación Automatizada
 
