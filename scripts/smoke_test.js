@@ -9,12 +9,13 @@
  * ============================================================================
  * 
  * MODO DE USO:
- *   node scripts/smoke_test.js [--deliverable=<e1.1|e1.2|e2.1|e2.2|e3.1|e3.2|e4.1|e4.2|all>]
+ *   node scripts/smoke_test.js [--deliverable=<e1.1|e1.2|e2.1|e2.2|e3.1|e3.2|e4.1|e4.2|e5.1|e5.2|all>]
  * 
  * EJEMPLOS:
  *   node scripts/smoke_test.js --deliverable=e1.1   # Evalúa solo el hito e1.1 (Arquitectura, Docker, JWT)
  *   node scripts/smoke_test.js --deliverable=e1.2   # Evalúa hitos acumulados hasta e1.2 (Entidades y Catálogos)
- *   node scripts/smoke_test.js --deliverable=e4.2   # Evalúa la suite completa final
+ *   node scripts/smoke_test.js --deliverable=e5.1   # Evalúa seguridad ofensiva y BOLA
+ *   node scripts/smoke_test.js --deliverable=e5.2   # Evalúa la suite completa final
  *   node scripts/smoke_test.js                      # Detecta automáticamente el entregable o evalúa e1.1
  */
 
@@ -23,8 +24,8 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 
-// Orden cronológico acumulativo de entregables
-const ENTREGABLES_ORDEN = ['e1.1', 'e1.2', 'e2.1', 'e2.2', 'e3.1', 'e3.2', 'e4.1', 'e4.2'];
+// Orden cronológico acumulativo de entregables (10 entregables)
+const ENTREGABLES_ORDEN = ['e1.1', 'e1.2', 'e2.1', 'e2.2', 'e3.1', 'e3.2', 'e4.1', 'e4.2', 'e5.1', 'e5.2'];
 
 const METADATA_ENTREGABLES = {
   'e1.1': { nombre: 'Arquitectura Limpia, Docker y Autenticación JWT', tag: 'v0.1.0-e1.1' },
@@ -34,7 +35,9 @@ const METADATA_ENTREGABLES = {
   'e3.1': { nombre: 'Máquina de Estados y Procesamiento Asíncrono BullMQ', tag: 'v0.3.0-e3.1' },
   'e3.2': { nombre: 'Flujo de Eventos, Auditoría Inmutable y CQRS', tag: 'v0.3.0-e3.2' },
   'e4.1': { nombre: 'Módulo de Reportes Analíticos y Worker Threads', tag: 'v0.4.0-e4.1' },
-  'e4.2': { nombre: 'Versión Final 1.0.0, OpenAPI/Swagger y Producción', tag: 'v1.0.0-final' }
+  'e4.2': { nombre: 'Documentación OpenAPI/Swagger y Pruebas E2E', tag: 'v0.4.0-e4.2' },
+  'e5.1': { nombre: 'Auditoría Ofensiva, BOLA/IDOR y Rate Limiting', tag: 'v0.5.0-e5.1' },
+  'e5.2': { nombre: 'Evaluación de Carga k6 y Versión Final 1.0.0', tag: 'v1.0.0-final' }
 };
 
 const TODOS_LOS_ENDPOINTS = [
@@ -991,6 +994,19 @@ const TODOS_LOS_ENDPOINTS = [
     ],
     "entregable": "e4.2",
     "modulo": "Documentación Final",
+    "body": null
+  },
+  {
+    "path": "/api/v1/torneosoftboles/00000000-0000-0000-0000-000000000000",
+    "method": "GET",
+    "name": "Verificación BOLA / IDOR en TorneoSoftbol",
+    "expected": [
+      401,
+      403,
+      404
+    ],
+    "entregable": "e5.1",
+    "modulo": "Seguridad Ofensiva",
     "body": null
   }
 ];
