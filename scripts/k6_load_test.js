@@ -33,8 +33,37 @@ export const options = {
 
 const BASE_URL = __ENV.TARGET_URL || 'http://localhost:3000';
 
-export default function () {
-  const headers = { 'Content-Type': 'application/json' };
+export function setup() {
+  const loginRes = http.post(
+    `${BASE_URL}/api/v1/auth/login`,
+    JSON.stringify({
+      email: 'admin@softbol.uas.edu.mx',
+      password: 'PasswordSeguro123!'
+    }),
+    {
+      headers: { 'Content-Type': 'application/json' }
+    }
+  );
+
+  let token = '';
+  if (loginRes.status === 200) {
+    const body = loginRes.json();
+    token = body.token || (body.data && body.data.token) || '';
+  }
+
+  // Si no responde token o se corre aislado, proveemos payload de autenticación Bearer
+  if (!token) {
+    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.k6mock';
+  }
+
+  return { token };
+}
+
+export default function (data) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${data && data.token ? data.token : 'test-token'}`
+  };
 
   // 1. Consulta Health / Disponibilidad
   const resHealth = http.get(`${BASE_URL}/api/v1/health`, { headers });
@@ -46,14 +75,14 @@ export default function () {
   // 2. Consulta de Catálogo con Caché Redis (Lectura Intensiva)
   const resCatalogo = http.get(`${BASE_URL}/api/v1/torneosoftboles?page=1&limit=20`, { headers });
   check(resCatalogo, {
-    'Catálogo TorneoSoftbol responde 200 o 401': (r) => [200, 401].includes(r.status),
+    'Catálogo TorneoSoftbol responde 200': (r) => r.status === 200,
     'Catálogo TorneoSoftbol latencia < 150ms': (r) => r.timings.duration < 150,
   });
 
   // 3. Búsqueda Avanzada con Filtros (Validación de Índices B-Tree)
   const resBusqueda = http.get(`${BASE_URL}/api/v1/torneosoftboles?busqueda=test&estado=activo&limit=10`, { headers });
   check(resBusqueda, {
-    'Búsqueda TorneoSoftbol responde código válido': (r) => [200, 401, 404].includes(r.status),
+    'Búsqueda TorneoSoftbol responde código válido 200': (r) => r.status === 200,
   });
 
   // Pausa realista entre acciones de usuario

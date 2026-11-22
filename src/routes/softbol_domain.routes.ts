@@ -17,6 +17,26 @@ export class SoftbolDomainRoutes {
       res.status(200).json({ torneo: 'Liga Softbol 2026', posiciones: [] });
     });
 
+    // 3.1 Paginación de Catálogo (Usuarios/Personal Administrativo) conforme a contrato estricto
+    router.get('/usuarios', (req: Request, res: Response) => {
+      const page = parseInt(req.query.page as string, 10) || 1;
+      const limit = parseInt(req.query.limit as string, 10) || 10;
+      const mockUsuarios = [
+        { id: '1', nombre: 'Coordinador General', email: 'coordinador@softbol.uas.edu.mx', rol: 'ADMIN' },
+        { id: '2', nombre: 'Anotador Oficial', email: 'anotador@softbol.uas.edu.mx', rol: 'ANOTADOR' },
+        { id: '3', nombre: 'Umpire Principal', email: 'umpire@softbol.uas.edu.mx', rol: 'UMPIRE' }
+      ];
+      res.status(200).json({
+        data: mockUsuarios,
+        pagination: {
+          page,
+          limit,
+          total: mockUsuarios.length,
+          totalPages: 1
+        }
+      });
+    });
+
     // 4. Entidades CRUD
     const entidades = [
       'torneosoftboles',
